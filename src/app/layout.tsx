@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Pirata_One, Six_Caps } from 'next/font/google'
+
+const pirataOne = Pirata_One({
+  weight: '400',
+  subsets: ['latin'],
+})
+
+const sixCaps = Six_Caps({
+  weight: '400',
+  subsets: ['latin'],
+})
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${pirataOne.className} ${sixCaps.className} ${inter.className}`}>{children}</body>
     </html>
   );
 }
