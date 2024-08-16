@@ -7,7 +7,11 @@ import FruitsBasket1 from './blogs/FruitsBasket1';
 import BrandonSanderson from './blogs/BrandonSanderson1';
 import FruitsBasket2 from './blogs/FruitsBasket2';
 
-export default function Projects({ isDarkMode }) {
+interface HomePageProps {
+  isDarkMode: boolean;
+}
+
+export default function Projects({ isDarkMode }: HomePageProps) {
   const scrollContainerRef = useRef(null);
   const [selectedBlog, setSelectedBlog] = useState(null);
 

@@ -3,7 +3,12 @@
 import { useRef, useEffect } from 'react';
 import '../globals.css'
 
-export default function Projects({ isDarkMode }) {
+interface HomePageProps {
+  isDarkMode: boolean;
+}
+
+
+export default function Projects({ isDarkMode }: HomePageProps) {
   const scrollContainerRef = useRef(null);
 
   const projects = [
