@@ -63,7 +63,7 @@ export default function Home() {
           </li>
           <li>
             <a
-              href="/resume.pdf"
+              href="/Prakhar_Sinha_Resume.pdf"
               download="Prakhar_Sinha_Resume.pdf"
               className={`text-xl font-bold cursor-pointer hover:text-green-500 ${isDarkMode ? 'text-white' : 'text-black'}`}
             >
