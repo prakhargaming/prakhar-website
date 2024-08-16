@@ -62,6 +62,15 @@ export default function Home() {
             </a>
           </li>
           <li>
+            <a
+              href="/resume.pdf"
+              download="Prakhar_Sinha_Resume.pdf"
+              className={`text-xl font-bold cursor-pointer hover:text-green-500 ${isDarkMode ? 'text-white' : 'text-black'}`}
+            >
+              Resume
+            </a>
+          </li>
+          <li>
             <button
               onClick={toggleTheme}
               className={`text-xl font-bold cursor-pointer hover:text-gray-500 px-1 ${isDarkMode ? 'text-black' : 'text-white'} ${isDarkMode ? 'bg-white' : 'bg-black'}`}
@@ -71,6 +80,7 @@ export default function Home() {
           </li>
         </ul>
       </nav>
+
 
       <div className={`border border-solid ${isDarkMode ? 'border-white' : 'border-black'} h-[100vh] p-5 max-h-[100vh] overflow-auto`}>
         <CurrentComponent isDarkMode={isDarkMode} />

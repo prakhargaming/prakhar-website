@@ -32,7 +32,7 @@ const TypeWriter = ({ words, isDarkMode }: TypeWriterProps) => {
                 150, parseInt(Math.random() * 350)));
 
     return () => clearTimeout(timeout);
-  }, [subIndex, index, reverse]);
+  }, [subIndex, index, reverse, words]); // Added 'words' to dependency array
 
   // Blink effect
   useEffect(() => {

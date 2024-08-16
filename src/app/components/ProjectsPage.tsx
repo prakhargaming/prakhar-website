@@ -48,29 +48,26 @@ export default function Projects({ isDarkMode }) {
         }}
       >
         {projects.map((item) => (
-  <div className='flex flex-col'>
-    <a
-      key={item.name}
-      className={`flex-shrink-0 w-64 h-48 m-4 flex items-center justify-center p-3 text-center text-lg ${
-        isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'}`}
-      href={item.href}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {item.name}
-    </a>
-    <h2 className={`items-center justify-center text-center text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
-      {item.date}
-    </h2>
-    <h2 className={`flex-shrink-0 m-4 flex items-center justify-center p-3 text-center text-lg ${
-        isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}>
-      {item.source}
-    </h2>
-  </div>
-))}
+          <div key={item.name} className='flex flex-col'> {/* Added 'key' prop here */}
+            <a
+              className={`flex-shrink-0 w-64 h-48 m-4 flex items-center justify-center p-3 text-center text-lg ${
+                isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'}`}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {item.name}
+            </a>
+            <h2 className={`items-center justify-center text-center text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
+              {item.date}
+            </h2>
+            <h2 className={`flex-shrink-0 m-4 flex items-center justify-center p-3 text-center text-lg ${
+                isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}>
+              {item.source}
+            </h2>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
-
-// 
