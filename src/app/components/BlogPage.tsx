@@ -11,11 +11,16 @@ interface HomePageProps {
   isDarkMode: boolean;
 }
 
-export default function Projects({ isDarkMode }: HomePageProps) {
-  const scrollContainerRef = useRef(null);
-  const [selectedBlog, setSelectedBlog] = useState(null);
+interface Blog {
+  name: string;
+  component: React.ElementType; // Changed to ElementType for React components
+}
 
-  const blogs = [
+export default function Projects({ isDarkMode }: HomePageProps) {
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null); // Added type
+  const [selectedBlog, setSelectedBlog] = useState<React.ElementType | null>(null); // Updated type
+
+  const blogs: Blog[] = [
     { name: "Jade Legacy and the Hope of Kaul Nikoyan.", component: JadeLegacy },
     { name: "Fruits Basket goes beyond The Final and transcends its genre as one the greatest conclusions ever to an anime trilogy.", component: FruitsBasket1 },
     { name: "Rediscovering why I always called Brandon Sanderson favorite author has been an eye-opening experience.", component: BrandonSanderson },
@@ -23,7 +28,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
   ];
 
   useEffect(() => {
-    const handleWheel = (e) => {
+    const handleWheel = (e: WheelEvent) => { // Added type
       if (scrollContainerRef.current) {
         e.preventDefault();
         scrollContainerRef.current.scrollLeft += e.deltaY;
@@ -42,7 +47,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
     };
   }, []);
 
-  const handleProjectClick = (project) => {
+  const handleProjectClick = (project: Blog) => { // Added type
     setSelectedBlog(() => project.component);
   };
 
@@ -58,7 +63,6 @@ export default function Projects({ isDarkMode }: HomePageProps) {
             Back to Projects
           </button>
         </div>
-        
       ) : (
         <div 
           ref={scrollContainerRef}

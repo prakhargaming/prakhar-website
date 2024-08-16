@@ -28,11 +28,10 @@ const TypeWriter = ({ words, isDarkMode }: TypeWriterProps) => {
 
     const timeout = setTimeout(() => {
       setSubIndex((prev) => prev + (reverse ? -1 : 1));
-    }, Math.max(reverse ? 75 : subIndex === words[index].length ? 1000 :
-                150, parseInt(Math.random() * 350)));
+    }, Math.max(reverse ? 75 : subIndex === words[index].length ? 1000 : 150, Math.random() * 350)); // Removed parseInt
 
     return () => clearTimeout(timeout);
-  }, [subIndex, index, reverse, words]); // Added 'words' to dependency array
+  }, [subIndex, index, reverse, words]);
 
   // Blink effect
   useEffect(() => {
