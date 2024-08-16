@@ -2,7 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 
-const TypeWriter = ({ words, isDarkMode }) => {
+interface TypeWriterProps {
+  isDarkMode: boolean;
+  words: string[];
+}
+
+const TypeWriter = ({ words, isDarkMode }: TypeWriterProps) => {
   const [index, setIndex] = useState(0);
   const [subIndex, setSubIndex] = useState(0);
   const [reverse, setReverse] = useState(false);
@@ -38,7 +43,7 @@ const TypeWriter = ({ words, isDarkMode }) => {
   }, [blink]);
 
   return (
-    <h2 className={`text-4xl font-bold px-8 pb-3 ${isDarkMode ? 'text-white bg-black' : 'text-black bg-white'}`}>
+    <h2 className={`text-4xl font-bold px-8 pb-3 pt-3 ${isDarkMode ? 'text-white bg-black' : 'text-black bg-white'}`}>
       I am a{" "}
       {`${words[index].substring(0, subIndex)}${blink ? "|" : " "}`}
     </h2>

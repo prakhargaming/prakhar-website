@@ -10,7 +10,7 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 0, 0, 0;
@@ -34,61 +34,36 @@ body {
   }
 }
 
-.pirata-one-regular {
-  font-family: "Pirata One", system-ui;
-  font-weight: 400;
-  font-style: normal;
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
-
-.six-caps-regular {
-  font-family: "Six Caps", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
 
-@keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* globals.css or any other relevant CSS file */
+.markdown-content h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
-.animate-gradient {
-  background: linear-gradient(270deg, #7f1d1d, #991b1b, #b91c1c);
-  background-size: 600% 600%;
-  animation: gradientBG 15s ease infinite;
+.markdown-content h2 {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.markdown-content h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
-.animate-fadeInUp {
-  animation: fadeInUp 1s ease-out;
+/* Additional styles for other headers and text */
+.markdown-content p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
 }
-
-@keyframes wavyText {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-}
-
-.animate-wavy {
-  display: inline-block;
-  animation: wavyText 2s ease-in-out infinite;
-}
-
-.hover-scale {
-  transition: transform 0.3s ease;
-}
-
-.hover-scale:hover {
-  transform: scale(1.05);
-}
-
