@@ -6,6 +6,7 @@ import JadeLegacy from './blogs/JadeLegacy1';
 import FruitsBasket1 from './blogs/FruitsBasket1';
 import BrandonSanderson from './blogs/BrandonSanderson1';
 import FruitsBasket2 from './blogs/FruitsBasket2';
+import FireEmblem1 from './blogs/FireEmblem1';
 
 interface HomePageProps {
   isDarkMode: boolean;
@@ -13,22 +14,23 @@ interface HomePageProps {
 
 interface Blog {
   name: string;
-  component: React.ElementType; // Changed to ElementType for React components
+  component: React.ElementType;
 }
 
-export default function Projects({ isDarkMode }: HomePageProps) {
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null); // Added type
-  const [selectedBlog, setSelectedBlog] = useState<React.ElementType | null>(null); // Updated type
+export default function Blogs({ isDarkMode }: HomePageProps) {
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const [selectedBlog, setSelectedBlog] = useState<React.ElementType | null>(null);
 
   const blogs: Blog[] = [
     { name: "Jade Legacy and the Hope of Kaul Nikoyan.", component: JadeLegacy },
     { name: "Fruits Basket goes beyond The Final and transcends its genre as one the greatest conclusions ever to an anime trilogy.", component: FruitsBasket1 },
     { name: "Rediscovering why I always called Brandon Sanderson favorite author has been an eye-opening experience.", component: BrandonSanderson },
     { name: "Fruits Basket second season has shattered my expectations in every conceivable way thus far.", component: FruitsBasket2 },
+    { name: "Fire Emblem Engage: The Never-ending Journey.", component: FireEmblem1 },
   ];
 
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => { // Added type
+    const handleWheel = (e: WheelEvent) => {
       if (scrollContainerRef.current) {
         e.preventDefault();
         scrollContainerRef.current.scrollLeft += e.deltaY;
@@ -47,8 +49,14 @@ export default function Projects({ isDarkMode }: HomePageProps) {
     };
   }, []);
 
-  const handleProjectClick = (project: Blog) => { // Added type
-    setSelectedBlog(() => project.component);
+  const handleProjectClick = (project: Blog) => {
+    if (selectedBlog === project.component) {
+      // If the selected blog is already active, go back to the main blog page
+      setSelectedBlog(null);
+    } else {
+      // Otherwise, set the selected blog
+      setSelectedBlog(() => project.component);
+    }
   };
 
   return (
@@ -60,7 +68,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
             onClick={() => setSelectedBlog(null)}
             className={`mb-4 px-4 py-2 ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}
           >
-            Back to Projects
+            Back to Blog Posts
           </button>
         </div>
       ) : (

@@ -28,7 +28,7 @@ const TypeWriter = ({ words, isDarkMode }: TypeWriterProps) => {
 
     const timeout = setTimeout(() => {
       setSubIndex((prev) => prev + (reverse ? -1 : 1));
-    }, Math.max(reverse ? 75 : subIndex === words[index].length ? 1000 : 150, Math.random() * 350)); // Removed parseInt
+    }, Math.max(reverse ? 75 : subIndex === words[index].length ? 1000 : 150, Math.random() * 350));
 
     return () => clearTimeout(timeout);
   }, [subIndex, index, reverse, words]);
@@ -42,7 +42,7 @@ const TypeWriter = ({ words, isDarkMode }: TypeWriterProps) => {
   }, [blink]);
 
   return (
-    <h2 className={`text-4xl font-bold px-8 pb-3 pt-3 ${isDarkMode ? 'text-white bg-black' : 'text-black bg-white'}`}>
+    <h2 className={`text-2xl md:text-4xl font-bold px-8 md:pb-3 md:pt-3 ${isDarkMode ? 'text-white bg-black' : 'text-black bg-white'}`}>
       I am a{" "}
       {`${words[index].substring(0, subIndex)}${blink ? "|" : " "}`}
     </h2>

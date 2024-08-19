@@ -21,7 +21,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
     { name: "FastSAM for Needle Biopsy", href: "https://github.com/prakhargaming/FastSAM-needle-biopsy", date: "July 2024 - August 2024", source: "Fereidouni Lab" },
     { name: "XAI ResNet-50 Data Visualization Project", href: "https://github.com/prakhargaming/Data-Visualization-Web-Dev-Project", date: "July 2023 - August 2023", source: "VIDI Lab" },
     { name: "Kernal Generation to Enhance Image Similarity", href: "https://github.com/prakhargaming/Lab-thingy", date: "July 2024 - August 2024", source: "Fereidouni Lab" },
-    { name: "Colorizing Grayscale Images With Generative Adversarial Network", href: "https://www.kaggle.com/code/praksinha/colorizing-grayscale-images-v2", date: "July 2022 - August 2022", source: "Fereidouni Lab" },
+    { name: "Colorizing Grayscale Images With Generative Adversarial Network", href: "https://www.kaggle.com/code/praksinha/colorizing-grayscale-images-v2", date: "July 2022 - August 2022", source: "Neuromatch Academy" },
     { name: "Scripta Dashboard", href: "https://github.com/prakhargaming/scripta-dashboard", date: "July 2024 - August 2024", source: "VDart Inc." },
     { name: "Scripta Interview Interface", href: "https://github.com/prakhargaming/scripta-welcome-interface", date: "July 2024 - August 2024", source: "VDart Inc." },
     { name: "Neuro-Prosthetic EEG Controlled Robotic Arm", href: "https://github.com/Neurotech-Davis/RoboticArm", date: "September 2023 - May 2024", source: "Neurotech@Davis" },
