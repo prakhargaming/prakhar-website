@@ -42,7 +42,7 @@ const TypeWriter = ({ words, isDarkMode }: TypeWriterProps) => {
   }, [blink]);
 
   return (
-    <h2 className={`text-2xl md:text-4xl font-bold px-8 md:pb-3 md:pt-3 ${isDarkMode ? 'text-white bg-black' : 'text-black bg-white'}`}>
+    <h2 className={`text-2xl md:text-4xl font-bold px-8 md:pb-3 md:pt-3  ${isDarkMode ? 'text-white bg-black' : 'text-black bg-white'}`}>
       I am a{" "}
       {`${words[index].substring(0, subIndex)}${blink ? "|" : " "}`}
     </h2>

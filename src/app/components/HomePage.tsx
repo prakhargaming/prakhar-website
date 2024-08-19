@@ -14,11 +14,11 @@ export default function HomePage({ isDarkMode }: HomePageProps) {
 
   return (
     <>
-      <div className="absolute left-0 md:top-1/2 top-1/3 transform -translate-y-1/2 z-0">
-        <h2 className={`text-xl md:text-4xl font-bold ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'} px-8 -ml-1 pt-3`}>
+      <div className="absolute left-0 md:top-1/2 top-1/4 transform -translate-y-1/2 z-0 pt-20">
+        <h2 className={`text-3xl md:text-4xl font-bold ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'} px-8 -ml-1 pt-3 md:pb-0 pb-3`}>
           My Name is
         </h2>
-        <h1 className={`text-5xl md:text-9xl font-bold ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'} px-3 -ml-1 pl-3`}>
+        <h1 className={`text-5xl md:text-9xl font-bold ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'} px-3 -ml-1 md:pl-6 pl-8 pb-4`}>
           Prakhar Sinha
         </h1>
         <TypeWriter isDarkMode={!isDarkMode} words={words} />

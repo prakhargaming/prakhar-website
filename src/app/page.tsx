@@ -28,7 +28,7 @@ export default function Home() {
   const CurrentComponent = navigation.find(item => item.name === currentPage)?.component || HomePage;
 
   return (
-    <div className={`h-[100vh] p-10 flex flex-col relative ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <div className={`h-[100vh] md:p-10 p-5 flex flex-col relative ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {/* Overlay Background when Menu is Open */}
       {isMenuOpen && (
         <div
@@ -160,7 +160,7 @@ export default function Home() {
         )}
       </nav>
 
-      <div className={`border border-solid ${isDarkMode ? 'border-white' : 'border-black'} h-[100vh] p-5 max-h-[100vh] overflow-auto z-10`}>
+      <div className={`md:border md:border-solid ${isDarkMode ? 'border-white' : 'border-black'} h-[100vh] p-5 max-h-[100vh] overflow-auto z-10`}>
         <CurrentComponent isDarkMode={isDarkMode} />
       </div>
     </div>
