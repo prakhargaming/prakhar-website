@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useRef, useEffect, useState } from 'react';
 import '../globals.css';
 import JadeLegacy from './blogs/JadeLegacy1';
@@ -20,6 +18,7 @@ interface Blog {
 export default function Blogs({ isDarkMode }: HomePageProps) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [selectedBlog, setSelectedBlog] = useState<React.ElementType | null>(null);
+  const [seed, setSeed] = useState(1);
 
   const blogs: Blog[] = [
     { name: "Jade Legacy and the Hope of Kaul Nikoyan.", component: JadeLegacy },
@@ -53,6 +52,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
     if (selectedBlog === project.component) {
       // If the selected blog is already active, go back to the main blog page
       setSelectedBlog(null);
+      setSeed(Math.random()); // Update the seed state to trigger a re-render
     } else {
       // Otherwise, set the selected blog
       setSelectedBlog(() => project.component);
@@ -67,15 +67,20 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
         panel.classList.add('slide-in');
       }, index * 100); // Delay each panel slightly for a staggered effect
     });
-  }, []);
+  }, [seed]); // Add seed to the dependency array
 
   return (
     <div className="w-full h-full flex items-center">
       {selectedBlog ? (
         <div className={`w-[70vw] h-full overflow-y-auto scrollbar-hide p-8 ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
-          {React.createElement(selectedBlog)}
+          <div key={seed}>
+            {React.createElement(selectedBlog)}
+          </div>
           <button
-            onClick={() => setSelectedBlog(null)}
+            onClick={() => {
+              setSelectedBlog(null);
+              setSeed(Math.random());
+            }}
             className={`mb-4 px-4 py-2 ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}
           >
             Back to Blog Posts
@@ -91,7 +96,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
           }}
         >
           {blogs.map((item) => (
-            <div key={item.name} className='flex flex-col project-panel'>
+            <div key={`${item.name}-${seed}`} className='flex flex-col project-panel'>
               <div
                 onClick={() => handleProjectClick(item)}
                 className={`flex-shrink-0 w-64 h-64 m-4 flex items-center justify-center p-3 text-center text-lg cursor-pointer ${
