@@ -59,6 +59,16 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
     }
   };
 
+  useEffect(() => {
+    // Add the 'slide-in' class to trigger animation when component mounts
+    const projectPanels = document.querySelectorAll('.project-panel');
+    projectPanels.forEach((panel, index) => {
+      setTimeout(() => {
+        panel.classList.add('slide-in');
+      }, index * 100); // Delay each panel slightly for a staggered effect
+    });
+  }, []);
+
   return (
     <div className="w-full h-full flex items-center">
       {selectedBlog ? (
@@ -81,7 +91,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
           }}
         >
           {blogs.map((item) => (
-            <div key={item.name} className='flex flex-col'>
+            <div key={item.name} className='flex flex-col project-panel'>
               <div
                 onClick={() => handleProjectClick(item)}
                 className={`flex-shrink-0 w-64 h-64 m-4 flex items-center justify-center p-3 text-center text-lg cursor-pointer ${

@@ -15,7 +15,7 @@ interface Project {
 }
 
 export default function Projects({ isDarkMode }: HomePageProps) {
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null); // Added type
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const projects: Project[] = [
     { name: "FastSAM for Needle Biopsy", href: "https://github.com/prakhargaming/FastSAM-needle-biopsy", date: "July 2024 - August 2024", source: "Fereidouni Lab" },
@@ -29,7 +29,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
   ];
 
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => { // Added type
+    const handleWheel = (e: WheelEvent) => {
       if (scrollContainerRef.current) {
         e.preventDefault();
         scrollContainerRef.current.scrollLeft += e.deltaY;
@@ -48,6 +48,16 @@ export default function Projects({ isDarkMode }: HomePageProps) {
     };
   }, []);
 
+  useEffect(() => {
+    // Add the 'slide-in' class to trigger animation when component mounts
+    const projectPanels = document.querySelectorAll('.project-panel');
+    projectPanels.forEach((panel, index) => {
+      setTimeout(() => {
+        panel.classList.add('slide-in');
+      }, index * 100); // Delay each panel slightly for a staggered effect
+    });
+  }, []);
+
   return (
     <div className="w-full h-full flex items-center">
       <div 
@@ -59,7 +69,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
         }}
       >
         {projects.map((item) => (
-          <div key={item.name} className='flex flex-col'> {/* Added 'key' prop here */}
+          <div key={item.name} className="flex flex-col project-panel opacity-0"> {/* Added 'project-panel' class here */}
             <a
               className={`flex-shrink-0 w-64 h-48 m-4 flex items-center justify-center p-3 text-center text-lg ${
                 isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'}`}

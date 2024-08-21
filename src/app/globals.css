@@ -67,3 +67,26 @@ body {
   margin-bottom: 1rem;
   line-height: 1.5;
 }
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.project-panel {
+  opacity: 0; /* Hidden by default */
+  transform: translateX(100%);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.project-panel.slide-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
