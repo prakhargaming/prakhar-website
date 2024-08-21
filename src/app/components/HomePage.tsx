@@ -12,6 +12,24 @@ export default function HomePage({ isDarkMode }: HomePageProps) {
     'AI enthusiast'
   ];
 
+  // Define an array of colors
+  const colors = [
+    '#B33A3A', // Muted Red
+    '#FF8C42', // Muted Orange
+    '#FFD166', // Muted Yellow
+    '#6A994E', // Muted Green
+    '#577590', // Muted Blue
+    '#4C4C9D', // Muted Indigo
+    '#8A5C7B'  // Muted Violet
+  ];
+  
+  // Map over "Prakhar Sinha" to assign a color to each letter
+  const coloredName = "Prakhar Sinha".split('').map((letter, index) => (
+    <span key={index} style={{ color: colors[index % colors.length] }}>
+      {letter}
+    </span>
+  ));
+
   return (
     <>
       <div className="absolute left-0 md:top-1/2 top-1/4 transform -translate-y-1/2 z-0 pt-20">
@@ -19,7 +37,7 @@ export default function HomePage({ isDarkMode }: HomePageProps) {
           My Name is
         </h2>
         <h1 className={`text-5xl md:text-9xl font-bold ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'} px-3 -ml-1 md:pl-6 pl-8 pb-4`}>
-          Prakhar Sinha
+          {coloredName}
         </h1>
         <TypeWriter isDarkMode={!isDarkMode} words={words} />
         <div className={`h-4 ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'} px-3 -ml-1 pl-3`} />

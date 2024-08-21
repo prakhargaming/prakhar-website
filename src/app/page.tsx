@@ -7,9 +7,9 @@ import Blog from './components/BlogPage';
 import Projects from './components/ProjectsPage';
 
 const navigation = [
-  { name: "Home", component: HomePage },
-  { name: "Projects", component: Projects },
-  { name: "Blog", component: Blog },
+  { name: "Home", component: HomePage, hover: "hover:text-red-500"},
+  { name: "Projects", component: Projects, hover: "hover:text-green-500" },
+  { name: "Blog", component: Blog, hover: "hover:text-blue-500" },
 ];
 
 export default function Home() {
@@ -52,7 +52,7 @@ export default function Home() {
             <li key={item.name}>
               <a
                 href={`/${item.name.toLowerCase()}`}
-                className={`text-xl font-bold cursor-pointer hover:text-red-500 ${isDarkMode ? 'text-white' : 'text-black'}`}
+                className={`text-xl font-bold cursor-pointer ${isDarkMode ? 'text-white' : 'text-black'} ${item.hover}`}  // Corrected here
                 onClick={(e) => {
                   e.preventDefault();
                   setCurrentPage(item.name);
@@ -61,7 +61,7 @@ export default function Home() {
                 {item.name}
               </a>
             </li>
-          ))}
+            ))}
           <li>
             <a
               href="https://www.linkedin.com/in/prakhar-sinha-57a412201/"
@@ -86,7 +86,7 @@ export default function Home() {
             <a
               href="/Prakhar_Sinha_Resume.pdf"
               download="Prakhar_Sinha_Resume.pdf"
-              className={`text-xl font-bold cursor-pointer hover:text-green-500 ${isDarkMode ? 'text-white' : 'text-black'}`}
+              className={`text-xl font-bold cursor-pointer hover:text-yellow-500 ${isDarkMode ? 'text-white' : 'text-black'}`}
             >
               Resume
             </a>
@@ -143,7 +143,7 @@ export default function Home() {
               <a
                 href="/Prakhar_Sinha_Resume.pdf"
                 download="Prakhar_Sinha_Resume.pdf"
-                className={`text-xl font-bold cursor-pointer hover:text-green-500 ${isDarkMode ? 'text-white' : 'text-black'}`}
+                className={`text-xl font-bold cursor-pointer hover:text-yellow-500 ${isDarkMode ? 'text-white' : 'text-black'}`}
               >
                 Resume
               </a>
