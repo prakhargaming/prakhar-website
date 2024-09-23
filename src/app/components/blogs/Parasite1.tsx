@@ -11,7 +11,7 @@ I am not someone who is qualified to speak about the stuggles these characters g
 
 It made me feel sick.
 
-Parasite, from beginning to end, is a very sad movie. It starts by depicting the living conditions of the main family the movie is based around. They live in a dingy apartment that halfway between being a basement and not. It is horribly cramped, there are bugs and they have only a small window to the outside world. This is all the family can afford. They are all unemployed and are desperately trying to make it out of their situation by trying out random side jobs but struggle to make ends meet. 
+*Parasite*, from beginning to end, is a very sad movie. It starts by depicting the living conditions of the main family the movie is based around. They live in a dingy apartment that halfway between being a basement and not. It is horribly cramped, there are bugs and they have only a small window to the outside world. This is all the family can afford. They are all unemployed and are desperately trying to make it out of their situation by trying out random side jobs but struggle to make ends meet. 
 
 This seems to be the side of Korea that people often overlook in the west. Beyond the K-dramas and K-pop there is a horrific crisis in Korea that is affecting young people all accross the country. Young people in Korea desperately want to make it out because there seems to be no hope of making it in a country where the capitalist mega corperations control nearly the entire governent and are squeezing these people for all the are worth are more. A society such as this pushes people to extremes. 
 
