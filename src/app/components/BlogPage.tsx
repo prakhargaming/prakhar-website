@@ -5,6 +5,7 @@ import FruitsBasket1 from './blogs/FruitsBasket1';
 import BrandonSanderson from './blogs/BrandonSanderson1';
 import FruitsBasket2 from './blogs/FruitsBasket2';
 import FireEmblem1 from './blogs/FireEmblem1';
+import Parasite1 from './blogs/Parasite1';
 
 interface HomePageProps {
   isDarkMode: boolean;
@@ -26,6 +27,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
     { name: "Rediscovering why I always called Brandon Sanderson favorite author has been an eye-opening experience.", component: BrandonSanderson },
     { name: "Fruits Basket second season has shattered my expectations in every conceivable way thus far.", component: FruitsBasket2 },
     { name: "Fire Emblem Engage: The Never-ending Journey.", component: FireEmblem1 },
+    { name: "Parasite", component: Parasite1 },
   ];
 
   useEffect(() => {
@@ -78,7 +80,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
           </div>
           <button
             onClick={() => {
-              setSelectedBlog(null);
+              setSelectedBlog(null);                                                                                
               setSeed(Math.random());
             }}
             className={`mb-4 px-4 py-2 ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}
