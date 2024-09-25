@@ -1,7 +1,7 @@
 import Markdown from 'react-markdown'
 import React from 'react'
 
-const markdownContent = `# Parasite
+const markdownContent = `# Parasite and the Human Condition
 
 *This essay contains spoilers for NieR Replicant and Parasite*
 

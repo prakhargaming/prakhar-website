@@ -45,7 +45,7 @@ body {
 
 /* globals.css or any other relevant CSS file */
 .markdown-content h1 {
-  font-size: 2rem;
+  font-size: 4rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }

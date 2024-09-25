@@ -6,6 +6,7 @@ import BrandonSanderson from './blogs/BrandonSanderson1';
 import FruitsBasket2 from './blogs/FruitsBasket2';
 import FireEmblem1 from './blogs/FireEmblem1';
 import Parasite1 from './blogs/Parasite1';
+import Persona3 from './blogs/Persona3';
 
 interface HomePageProps {
   isDarkMode: boolean;
@@ -22,12 +23,13 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
   const [seed, setSeed] = useState(1);
 
   const blogs: Blog[] = [
-    { name: "Jade Legacy and the Hope of Kaul Nikoyan.", component: JadeLegacy },
-    { name: "Fruits Basket goes beyond The Final and transcends its genre as one the greatest conclusions ever to an anime trilogy.", component: FruitsBasket1 },
-    { name: "Rediscovering why I always called Brandon Sanderson favorite author has been an eye-opening experience.", component: BrandonSanderson },
-    { name: "Fruits Basket second season has shattered my expectations in every conceivable way thus far.", component: FruitsBasket2 },
-    { name: "Fire Emblem Engage: The Never-ending Journey.", component: FireEmblem1 },
-    { name: "Parasite", component: Parasite1 },
+    { name: "Jade Legacy and the Hope of Kaul Nikoyan", component: JadeLegacy },
+    { name: "Fruits Basket goes beyond The Final and transcends its genre as one the greatest conclusions ever to an anime trilogy", component: FruitsBasket1 },
+    { name: "Rediscovering why I always called Brandon Sanderson favorite author has been an eye-opening experience", component: BrandonSanderson },
+    { name: "Fruits Basket second season has shattered my expectations in every conceivable way thus far", component: FruitsBasket2 },
+    { name: "Fire Emblem Engage: The Never-ending Journey", component: FireEmblem1 },
+    { name: "Parasite and the Human Condition", component: Parasite1 },
+    { name: "burn your dread", component: Persona3 },
   ];
 
   useEffect(() => {
@@ -52,35 +54,44 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
 
   const handleProjectClick = (project: Blog) => {
     if (selectedBlog === project.component) {
-      // If the selected blog is already active, go back to the main blog page
       setSelectedBlog(null);
-      setSeed(Math.random()); // Update the seed state to trigger a re-render
+      setSeed(Math.random());
     } else {
-      // Otherwise, set the selected blog
       setSelectedBlog(() => project.component);
     }
   };
 
   useEffect(() => {
-    // Add the 'slide-in' class to trigger animation when component mounts
     const projectPanels = document.querySelectorAll('.project-panel');
     projectPanels.forEach((panel, index) => {
       setTimeout(() => {
         panel.classList.add('slide-in');
-      }, index * 100); // Delay each panel slightly for a staggered effect
+      }, index * 100);
     });
-  }, [seed]); // Add seed to the dependency array
+  }, [seed]);
 
   return (
-    <div className="w-full h-full flex items-center">
+    <div className="w-full h-full flex flex-col justify-center items-start">
+      {!selectedBlog && (
+        <div>
+          <h1
+            className={`text-4xl font-bold mb-4 pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`}
+          >
+            Welcome to my Blogs!
+          </h1>
+          <h2 className={`text-xl mb-8 pl-8 w-3/4 ${isDarkMode ? 'text-white' : 'text-black'}`} >
+            This is a collection of essays that I have written over the years. They are mostly about pieces of fiction I've consumed, ranging from books to Anime to video games. I love writing and I've always wanted a space to share that passion. Feel free to read them and let me know what you think! 
+          </h2>
+        </div>
+      )}
       {selectedBlog ? (
-        <div className={`w-[70vw] h-full overflow-y-auto scrollbar-hide p-8 ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+        <div className={`w-full max-w-3xl mx-auto h-full overflow-y-auto scrollbar-hide p-8 pt-20 ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
           <div key={seed}>
             {React.createElement(selectedBlog)}
           </div>
           <button
             onClick={() => {
-              setSelectedBlog(null);                                                                                
+              setSelectedBlog(null);
               setSeed(Math.random());
             }}
             className={`mb-4 px-4 py-2 ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}
