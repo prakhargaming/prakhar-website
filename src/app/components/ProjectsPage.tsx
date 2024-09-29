@@ -49,17 +49,26 @@ export default function Projects({ isDarkMode }: HomePageProps) {
   }, []);
 
   useEffect(() => {
-    // Add the 'slide-in' class to trigger animation when component mounts
     const projectPanels = document.querySelectorAll('.project-panel');
     projectPanels.forEach((panel, index) => {
       setTimeout(() => {
         panel.classList.add('slide-in');
-      }, index * 100); // Delay each panel slightly for a staggered effect
+      }, index * 100);
     });
   }, []);
 
   return (
-    <div className="w-full h-full flex items-center">
+    <div className="w-full h-full flex flex-col justify-center items-start">
+      {/* Header text, similar to the blog component */}
+      <div>
+        <h1 className={`text-4xl font-bold mb-4 pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+          Welcome to my Projects!
+        </h1>
+        <h2 className={`text-xl mb-8 pl-8 w-3/4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+          Here is a collection of my work. These projects span various domains, showcasing my skills and experiences in the fields of software engineering, AI, Computer Vision, Frontend Web Development and beyond.
+        </h2>
+      </div>
+
       <div 
         ref={scrollContainerRef}
         className={`flex overflow-x-auto scrollbar-hide w-full ${isDarkMode ? 'bg-black' : 'bg-white'}`}
@@ -69,10 +78,9 @@ export default function Projects({ isDarkMode }: HomePageProps) {
         }}
       >
         {projects.map((item) => (
-          <div key={item.name} className="flex flex-col project-panel opacity-0"> {/* Added 'project-panel' class here */}
+          <div key={item.name} className="flex flex-col project-panel opacity-0">
             <a
-              className={`flex-shrink-0 w-64 h-48 m-4 flex items-center justify-center p-3 text-center text-lg ${
-                isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'}`}
+              className={`flex-shrink-0 w-64 h-48 m-4 flex items-center justify-center p-3 text-center text-lg ${isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'}`}
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
@@ -82,8 +90,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
             <h2 className={`items-center justify-center text-center text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
               {item.date}
             </h2>
-            <h2 className={`flex-shrink-0 m-4 flex items-center justify-center p-3 text-center text-lg ${
-                isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}>
+            <h2 className={`flex-shrink-0 m-4 flex items-center justify-center p-3 text-center text-lg ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}>
               {item.source}
             </h2>
           </div>

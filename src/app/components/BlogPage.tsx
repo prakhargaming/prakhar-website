@@ -80,7 +80,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
             Welcome to my Blogs!
           </h1>
           <h2 className={`text-xl mb-8 pl-8 w-3/4 ${isDarkMode ? 'text-white' : 'text-black'}`} >
-            This is a collection of essays that I have written over the years. They are mostly about pieces of fiction I've consumed, ranging from books to Anime to video games. I love writing and I've always wanted a space to share that passion. Feel free to read them and let me know what you think! 
+            This is a collection of essays that I have written over the years. They are mostly about pieces of fiction I&apos;ve consumed, ranging from books to Anime to video games. I love writing and I&apos;ve always wanted a space to share that passion. Feel free to read them and let me know what you think! 
           </h2>
         </div>
       )}
@@ -108,7 +108,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
             WebkitOverflowScrolling: 'touch',
           }}
         >
-          {blogs.map((item) => (
+          {blogs.reverse().map((item) => (
             <div key={`${item.name}-${seed}`} className='flex flex-col project-panel'>
               <div
                 onClick={() => handleProjectClick(item)}
