@@ -7,6 +7,7 @@ import FruitsBasket2 from './blogs/FruitsBasket2';
 import FireEmblem1 from './blogs/FireEmblem1';
 import Parasite1 from './blogs/Parasite1';
 import Persona3 from './blogs/Persona3';
+import PasswordModal from './PasswordModal';
 
 interface HomePageProps {
   isDarkMode: boolean;
@@ -15,21 +16,24 @@ interface HomePageProps {
 interface Blog {
   name: string;
   component: React.ElementType;
+  locked: boolean;
 }
 
 export default function Blogs({ isDarkMode }: HomePageProps) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [selectedBlog, setSelectedBlog] = useState<React.ElementType | null>(null);
   const [seed, setSeed] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentLockedBlog, setCurrentLockedBlog] = useState<Blog | null>(null);
 
   const blogs: Blog[] = [
-    { name: "Jade Legacy and the Hope of Kaul Nikoyan", component: JadeLegacy },
-    { name: "Fruits Basket goes beyond The Final and transcends its genre as one the greatest conclusions ever to an anime trilogy", component: FruitsBasket1 },
-    { name: "Rediscovering why I always called Brandon Sanderson favorite author has been an eye-opening experience", component: BrandonSanderson },
-    { name: "Fruits Basket second season has shattered my expectations in every conceivable way thus far", component: FruitsBasket2 },
-    { name: "Fire Emblem Engage: The Never-ending Journey", component: FireEmblem1 },
-    { name: "Parasite and the Human Condition", component: Parasite1 },
-    { name: "burn your dread", component: Persona3 },
+    { name: "Jade Legacy and the Hope of Kaul Nikoyan", component: JadeLegacy, locked: false },
+    { name: "Fruits Basket goes beyond The Final and transcends its genre as one the greatest conclusions ever to an anime trilogy", component: FruitsBasket1, locked: false },
+    { name: "Rediscovering why I always called Brandon Sanderson favorite author has been an eye-opening experience", component: BrandonSanderson, locked: false },
+    { name: "Fruits Basket second season has shattered my expectations in every conceivable way thus far", component: FruitsBasket2, locked: false },
+    { name: "Fire Emblem Engage: The Never-ending Journey", component: FireEmblem1 , locked: false},
+    { name: "Parasite and the Human Condition", component: Parasite1, locked: false },
+    { name: "burn your dread", component: Persona3, locked: true },
   ];
 
   useEffect(() => {
@@ -53,11 +57,28 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
   }, []);
 
   const handleProjectClick = (project: Blog) => {
-    if (selectedBlog === project.component) {
-      setSelectedBlog(null);
-      setSeed(Math.random());
+    if (project.locked) {
+      setCurrentLockedBlog(project);
+      setIsModalOpen(true);
     } else {
-      setSelectedBlog(() => project.component);
+      if (selectedBlog === project.component) {
+        setSelectedBlog(null);
+        setSeed(Math.random());
+      } else {
+        setSelectedBlog(() => project.component);
+      }
+    }
+  };
+
+  const handlePasswordSubmit = (password: string) => {
+    // Replace 'process.env.NEXT_PUBLIC_BLOG_PASSWORD' with your actual environment variable name
+    if (password === process.env.NEXT_PUBLIC_BLOG_PASSWORD) {
+      setIsModalOpen(false);
+      if (currentLockedBlog) {
+        setSelectedBlog(() => currentLockedBlog.component);
+      }
+    } else {
+      alert('Incorrect password');
     }
   };
 
@@ -122,6 +143,12 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
           ))}
         </div>
       )}
+      <PasswordModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handlePasswordSubmit}
+        isDarkMode={isDarkMode}
+      />
     </div>
   );
 }
