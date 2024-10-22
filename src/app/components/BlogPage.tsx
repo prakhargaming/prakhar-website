@@ -6,7 +6,7 @@ import BrandonSanderson from './blogs/BrandonSanderson1';
 import FruitsBasket2 from './blogs/FruitsBasket2';
 import FireEmblem1 from './blogs/FireEmblem1';
 import Parasite1 from './blogs/Parasite1';
-import Persona3 from './blogs/Persona3';
+// import Persona3 from './blogs/Persona3';
 import PasswordModal from './PasswordModal';
 
 interface HomePageProps {
@@ -33,7 +33,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
     { name: "Fruits Basket second season has shattered my expectations in every conceivable way thus far", component: FruitsBasket2, locked: false },
     { name: "Fire Emblem Engage: The Never-ending Journey", component: FireEmblem1 , locked: false},
     { name: "Parasite and the Human Condition", component: Parasite1, locked: false },
-    { name: "burn your dread", component: Persona3, locked: true },
+    // { name: "burn your dread", component: Persona3, locked: true },
   ];
 
   useEffect(() => {
