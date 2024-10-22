@@ -63,7 +63,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
     <div className="w-full h-full flex flex-col justify-center items-start">
       {/* Header text, similar to the blog component */}
       <div className="max-sm:py-5">
-        <h1 className={`text-5xl font-bold mb-4 md:pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+        <h1 className={`text-5xl max-sm:text-4xl font-bold mb-4 md:pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`}>
           Welcome to my Projects!
         </h1>
         <h2 className={`text-xl max-sm:text-left md:mb-8 md:pl-8 w-3/4 max-sm:w-full max-sm:max-h-[15vh] overflow-y-auto ${isDarkMode ? 'text-white' : 'text-black'}`}>
