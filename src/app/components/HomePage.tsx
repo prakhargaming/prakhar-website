@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import TypeWriter from "./TypeWriter";
 
 interface HomePageProps {
@@ -22,10 +23,27 @@ export default function HomePage({ isDarkMode }: HomePageProps) {
     '#4C4C9D', // Muted Indigo
     '#8A5C7B'  // Muted Violet
   ];
-  
+
+  // State to keep track of the current color index
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+
+  // Cycle through the colors every second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentColorIndex((prevIndex) => (prevIndex + 1) % colors.length);
+    }, 1000); // Change color every second
+
+    return () => clearInterval(interval); // Cleanup the interval on component unmount
+  }, [colors.length]);
+
   // Map over "Prakhar Sinha" to assign a color to each letter
   const coloredName = "Prakhar Sinha".split('').map((letter, index) => (
-    <span key={index} style={{ color: colors[index % colors.length] }}>
+    <span 
+      key={index} 
+      style={{ 
+        color: colors[(index + currentColorIndex) % colors.length] // Shift color based on current index
+      }}
+    >
       {letter}
     </span>
   ));

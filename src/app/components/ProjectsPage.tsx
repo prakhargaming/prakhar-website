@@ -60,27 +60,28 @@ export default function Projects({ isDarkMode }: HomePageProps) {
   return (
     <div className="w-full h-full flex flex-col justify-center items-start">
       {/* Header text, similar to the blog component */}
-      <div>
-        <h1 className={`text-4xl font-bold mb-4 pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+      <div className="max-sm:py-5">
+        <h1 className={`text-5xl font-bold mb-4 md:pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`}>
           Welcome to my Projects!
         </h1>
-        <h2 className={`text-xl mb-8 pl-8 w-3/4 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+        <h2 className={`text-xl max-sm:text-left md:mb-8 md:pl-8 w-3/4 max-sm:w-full max-sm:max-h-[15vh] overflow-y-auto ${isDarkMode ? 'text-white' : 'text-black'}`}>
           Here is a collection of my work. These projects span various domains, showcasing my skills and experiences in the fields of software engineering, AI, Computer Vision, Frontend Web Development and beyond.
         </h2>
       </div>
 
       <div 
         ref={scrollContainerRef}
-        className={`flex overflow-x-auto scrollbar-hide w-full ${isDarkMode ? 'bg-black' : 'bg-white'}`}
+        className={`flex overflow-x-auto scrollbar-hide w-full md:pl-8 ${isDarkMode ? 'bg-black' : 'bg-white'}`}
         style={{
           scrollBehavior: 'smooth',
           WebkitOverflowScrolling: 'touch',
         }}
       >
-        {projects.map((item) => (
+        {projects.map((item, index) => (
           <div key={item.name} className="flex flex-col project-panel opacity-0">
             <a
-              className={`flex-shrink-0 w-64 h-48 m-4 flex items-center justify-center p-3 text-center text-lg ${isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'}`}
+              // Conditionally remove margin for the first item
+              className={`flex-shrink-0 w-64 h-48 ${index !== 0 ? 'm-4' : 'my-4 mr-4'} flex items-center justify-center p-3 text-center text-lg ${isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'}`}
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
@@ -90,7 +91,10 @@ export default function Projects({ isDarkMode }: HomePageProps) {
             <h2 className={`items-center justify-center text-center text-lg ${isDarkMode ? 'text-white' : 'text-black'}`}>
               {item.date}
             </h2>
-            <h2 className={`flex-shrink-0 m-4 flex items-center justify-center p-3 text-center text-lg ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}>
+            <h2 
+              // Same for this element as well, remove margin for the first one
+              className={`flex-shrink-0 ${index !== 0 ? 'm-4' : 'my-4 mr-4'} flex items-center justify-center p-3 text-center text-lg ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}
+            >
               {item.source}
             </h2>
           </div>

@@ -92,16 +92,14 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
   }, [seed]);
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-start">
+    <div className="w-full h-full flex flex-col justify-center items-start align-">
       {!selectedBlog && (
-        <div>
-          <h1
-            className={`text-4xl font-bold mb-4 pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`}
-          >
+        <div className="max-sm:py-5">
+          <h1 className={`text-5xl font-bold mb-4 md:pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`} >
             Welcome to my Blogs!
           </h1>
-          <h2 className={`text-xl mb-8 pl-8 w-3/4 ${isDarkMode ? 'text-white' : 'text-black'}`} >
-            This is a collection of essays that I have written over the years. They are mostly about pieces of fiction I&apos;ve consumed, ranging from books to Anime to video games. I love writing and I&apos;ve always wanted a space to share that passion. Feel free to read them and let me know what you think! 
+          <h2 className={`text-xl md:mb-8 md:pl-8 max-sm:text-left w-3/4 max-sm:w-full max-sm:max-h-[15vh] overflow-y-auto ${isDarkMode ? 'text-white' : 'text-black'}`}>
+            This is a collection of essays that I have written over the years. They are mostly about pieces of fiction I&apos;ve consumed, ranging from books to Anime to video games. I love writing and I&apos;ve always wanted a space to share that passion. Feel free to read them and let me know what you think!
           </h2>
         </div>
       )}
@@ -123,17 +121,18 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
       ) : (
         <div 
           ref={scrollContainerRef}
-          className={`flex overflow-x-auto scrollbar-hide w-full ${isDarkMode ? 'bg-black' : 'bg-white'}`}
+          className={`flex overflow-x-auto scrollbar-hide w-full md:pl-8 ${isDarkMode ? 'bg-black' : 'bg-white'}`}
           style={{
             scrollBehavior: 'smooth',
             WebkitOverflowScrolling: 'touch',
           }}
         >
-          {blogs.reverse().map((item) => (
+          {blogs.reverse().map((item, index) => (
             <div key={`${item.name}-${seed}`} className='flex flex-col project-panel'>
               <div
                 onClick={() => handleProjectClick(item)}
-                className={`flex-shrink-0 w-64 h-64 m-4 flex items-center justify-center p-3 text-center text-lg cursor-pointer ${
+                // Conditionally add margin: if it's the first item (index === 0), no margin.
+                className={`flex-shrink-0 w-64 h-64 ${index !== 0 ? 'm-4' : 'my-4 mr-4'} flex items-center justify-center p-3 text-center text-lg cursor-pointer ${
                   isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'
                 }`}
               >
@@ -142,6 +141,7 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
             </div>
           ))}
         </div>
+
       )}
       <PasswordModal 
         isOpen={isModalOpen}
