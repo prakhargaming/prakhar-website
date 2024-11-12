@@ -37,7 +37,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+.env*.local
 
-src/app/components/blogs/persona3.md
-
-src/app/components/blogs/persona3.tsx
+src/app/components/blogs/

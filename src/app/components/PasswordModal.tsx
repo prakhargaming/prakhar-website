@@ -9,10 +9,19 @@ interface PasswordModalProps {
 
 const PasswordModal: React.FC<PasswordModalProps> = ({ isOpen, onClose, onSubmit, isDarkMode }) => {
   const [password, setPassword] = useState('');
+  const [isError, setIsError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(password);
+    // Reset error state on each submission
+    setIsError(false);
+    
+    // Instead of directly calling onSubmit, we can wrap it to handle the error state
+    try {
+      onSubmit(password);
+    } catch {
+      setIsError(true);
+    }
   };
 
   if (!isOpen) return null;
@@ -25,10 +34,16 @@ const PasswordModal: React.FC<PasswordModalProps> = ({ isOpen, onClose, onSubmit
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setIsError(false); // Clear error when user types
+            }}
             placeholder="Enter password"
-            className={`w-full p-2 mb-4 border rounded ${isDarkMode ? 'text-white bg-black' : 'bg-white text-black'}`}
+            className={`w-full p-2 mb-2 border rounded ${isDarkMode ? 'text-white bg-black' : 'bg-white text-black'}`}
           />
+          {isError && (
+            <p className="text-red-500 text-sm mb-4">Incorrect password. Please try again.</p>
+          )}
           <div className="flex justify-end">
             <button
               type="button"
