@@ -18,7 +18,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const projects: Project[] = [
-    { name: "DHS: Davis Housing Services", href: "https://github.com/davis-housing-services/dhs", date: "September 2024 - Present", source: "Startup with Friends" },
+    { name: "DHS: Davis Housing Services", href: "https://github.com/davis-housing-services/dhs", date: "Present", source: "Startup with Friends" },
     { name: "FastSAM for Needle Biopsy", href: "https://github.com/prakhargaming/FastSAM-needle-biopsy", date: "July 2024 - August 2024", source: "Fereidouni Lab" },
     { name: "Kernal Generation to Enhance Image Similarity", href: "https://github.com/prakhargaming/Lab-thingy", date: "July 2024 - August 2024", source: "Fereidouni Lab" },
     { name: "Scripta Dashboard", href: "https://github.com/prakhargaming/scripta-dashboard", date: "July 2024 - August 2024", source: "VDart Inc." },

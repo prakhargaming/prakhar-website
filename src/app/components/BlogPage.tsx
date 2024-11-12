@@ -1,40 +1,62 @@
 import React, { useRef, useEffect, useState } from 'react';
 import '../globals.css';
-import JadeLegacy from './blogs/JadeLegacy1';
-import FruitsBasket1 from './blogs/FruitsBasket1';
-import BrandonSanderson from './blogs/BrandonSanderson1';
-import FruitsBasket2 from './blogs/FruitsBasket2';
-import FireEmblem1 from './blogs/FireEmblem1';
-import Parasite1 from './blogs/Parasite1';
-// import Persona3 from './blogs/Persona3';
 import PasswordModal from './PasswordModal';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+
+interface Blog {
+  _id: string;
+  title: string;
+  content: string;
+  author: string;
+  date: string;
+  tags: string[];
+  locked: boolean;
+}
 
 interface HomePageProps {
   isDarkMode: boolean;
 }
 
-interface Blog {
-  name: string;
-  component: React.ElementType;
-  locked: boolean;
-}
-
 export default function Blogs({ isDarkMode }: HomePageProps) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-  const [selectedBlog, setSelectedBlog] = useState<React.ElementType | null>(null);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [seed, setSeed] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentLockedBlog, setCurrentLockedBlog] = useState<Blog | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const blogs: Blog[] = [
-    { name: "Jade Legacy and the Hope of Kaul Nikoyan", component: JadeLegacy, locked: false },
-    { name: "Fruits Basket goes beyond The Final and transcends its genre as one the greatest conclusions ever to an anime trilogy", component: FruitsBasket1, locked: false },
-    { name: "Rediscovering why I always called Brandon Sanderson favorite author has been an eye-opening experience", component: BrandonSanderson, locked: false },
-    { name: "Fruits Basket second season has shattered my expectations in every conceivable way thus far", component: FruitsBasket2, locked: false },
-    { name: "Fire Emblem Engage: The Never-ending Journey", component: FireEmblem1 , locked: false},
-    { name: "Parasite and the Human Condition", component: Parasite1, locked: false },
-    // { name: "burn your dread", component: Persona3, locked: true },
-  ];
+  const fetchBlogs = async () => {
+    try {
+      // Explicitly set method to GET
+      const response = await fetch('/api/blogs', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Fetched blogs:', data); // Add this for debugging
+      setBlogs(data);
+    } catch (err) {
+      console.error('Error fetching blogs:', err); // Add this for debugging
+      setError(err instanceof Error ? err.message : 'Failed to fetch blogs');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -56,46 +78,75 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
     };
   }, []);
 
-  const handleProjectClick = (project: Blog) => {
-    if (project.locked) {
-      setCurrentLockedBlog(project);
-      setIsModalOpen(true);
-    } else {
-      if (selectedBlog === project.component) {
-        setSelectedBlog(null);
-        setSeed(Math.random());
-      } else {
-        setSelectedBlog(() => project.component);
-      }
-    }
-  };
-
-  const handlePasswordSubmit = (password: string) => {
-    // Replace 'process.env.NEXT_PUBLIC_BLOG_PASSWORD' with your actual environment variable name
-    if (password === process.env.NEXT_PUBLIC_BLOG_PASSWORD) {
-      setIsModalOpen(false);
-      if (currentLockedBlog) {
-        setSelectedBlog(() => currentLockedBlog.component);
-      }
-    } else {
-      alert('Incorrect password');
-    }
-  };
-
   useEffect(() => {
     const projectPanels = document.querySelectorAll('.project-panel');
     projectPanels.forEach((panel, index) => {
+      // Cast panel to HTMLElement
+      const element = panel as HTMLElement;
+      // Remove the slide-in class first
+      element.classList.remove('slide-in');
+      // Force a reflow
+      void element.offsetWidth;
+      // Add the class back with a delay
       setTimeout(() => {
-        panel.classList.add('slide-in');
+        element.classList.add('slide-in');
       }, index * 100);
     });
-  }, [seed]);
+  }, [seed, blogs]);
+
+  const handleProjectClick = (blog: Blog) => {
+    if (blog.locked) {
+      setCurrentLockedBlog(blog);
+      setIsModalOpen(true);
+    } else {
+      if (selectedBlog?._id === blog._id) {
+        setSelectedBlog(null);
+        setSeed(Math.random());
+      } else {
+        setSelectedBlog(blog);
+      }
+    }
+  };
+
+  const handlePasswordSubmit = async (password: string) => {
+    try {
+      const response = await fetch('/api/verify-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          password,
+          blogId: currentLockedBlog?._id 
+        }),
+      });
+
+      if (response.ok) {
+        setIsModalOpen(false);
+        if (currentLockedBlog) {
+          setSelectedBlog(currentLockedBlog);
+        }
+      } else {
+        alert('Incorrect password');
+      }
+    } catch (err) {
+      alert('Error verifying password');
+    }
+  };
+
+  if (isLoading) {
+    return <div className="w-full h-full flex justify-center items-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="w-full h-full flex justify-center items-center">Error: {error}</div>;
+  }
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-start align-">
+    <div className="w-full h-full flex flex-col justify-center items-start">
       {!selectedBlog && (
         <div className="max-sm:py-5">
-          <h1 className={`text-5xl max-sm:text-4xl font-bold mb-4 md:pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`} >
+          <h1 className={`text-5xl max-sm:text-4xl font-bold mb-4 md:pl-8 ${isDarkMode ? 'text-white' : 'text-black'}`}>
             Welcome to my Blogs!
           </h1>
           <h2 className={`text-xl md:mb-8 md:pl-8 max-sm:text-left w-3/4 max-sm:w-full max-sm:max-h-[15vh] overflow-y-auto ${isDarkMode ? 'text-white' : 'text-black'}`}>
@@ -105,15 +156,40 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
       )}
       {selectedBlog ? (
         <div className={`w-full max-w-3xl mx-auto h-full overflow-y-auto scrollbar-hide p-8 pt-20 ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
-          <div key={seed}>
-            {React.createElement(selectedBlog)}
+          <h1 className="text-4xl font-bold mb-6">{selectedBlog.title}</h1>
+          <div className="text-sm text-gray-600 mb-4">
+            <span>By {selectedBlog.author}</span>
+            {selectedBlog.date && (
+              <span className="ml-4">
+                {new Date(selectedBlog.date).toLocaleDateString()}
+              </span>
+            )}
+          </div>
+          <div className="prose lg:prose-xl dark:prose-invert">
+            <ReactMarkdown 
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={{
+                h1: ({node, ...props}) => <h1 className="text-3xl font-bold my-4" {...props} />,
+                h2: ({node, ...props}) => <h2 className="text-2xl font-bold my-3" {...props} />,
+                h3: ({node, ...props}) => <h3 className="text-xl font-bold my-2" {...props} />,
+                p: ({node, ...props}) => <p className="my-2" {...props} />,
+                ul: ({node, ...props}) => <ul className="list-disc ml-4 my-2" {...props} />,
+                ol: ({node, ...props}) => <ol className="list-decimal ml-4 my-2" {...props} />,
+                blockquote: ({node, ...props}) => (
+                  <blockquote className="border-l-4 border-gray-300 pl-4 my-2" {...props} />
+                ),
+              }}
+            >
+              {selectedBlog.content}
+            </ReactMarkdown>
           </div>
           <button
             onClick={() => {
               setSelectedBlog(null);
               setSeed(Math.random());
             }}
-            className={`mb-4 px-4 py-2 ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}
+            className={`mb-4 px-4 py-2 mt-8 ${isDarkMode ? 'bg-white text-black' : 'bg-black text-white'}`}
           >
             Back to Blog Posts
           </button>
@@ -127,21 +203,22 @@ export default function Blogs({ isDarkMode }: HomePageProps) {
             WebkitOverflowScrolling: 'touch',
           }}
         >
-          {blogs.reverse().map((item, index) => (
-            <div key={`${item.name}-${seed}`} className='flex flex-col project-panel'>
+          {blogs.map((blog, index) => (
+            <div 
+              key={`${blog._id}-${seed}`} 
+              className='flex flex-col project-panel opacity-0'
+            >
               <div
-                onClick={() => handleProjectClick(item)}
-                // Conditionally add margin: if it's the first item (index === 0), no margin.
+                onClick={() => handleProjectClick(blog)}
                 className={`flex-shrink-0 w-64 h-64 ${index !== 0 ? 'm-4' : 'my-4 mr-4'} flex items-center justify-center p-3 text-center text-lg cursor-pointer ${
                   isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' : 'bg-black text-white hover:bg-white hover:text-black hover:border-white'
                 }`}
               >
-                {item.name}
+                {blog.title}
               </div>
             </div>
           ))}
         </div>
-
       )}
       <PasswordModal 
         isOpen={isModalOpen}

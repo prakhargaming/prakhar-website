@@ -80,13 +80,11 @@ body {
 }
 
 .project-panel {
-  opacity: 0; /* Hidden by default */
+  opacity: 0;
   transform: translateX(100%);
-  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
 
 .project-panel.slide-in {
-  opacity: 1;
-  transform: translateX(0);
+  animation: slideIn 0.5s forwards;
 }
 
