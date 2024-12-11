@@ -5,11 +5,13 @@ import { useState } from 'react';
 import HomePage from './components/HomePage';
 import Blog from './components/BlogPage';
 import Projects from './components/ProjectsPage';
+import SignUp from './components/SignUpPage';
 
 const navigation = [
   { name: "Home", component: HomePage, hover: "hover:text-red-500"},
   { name: "Projects", component: Projects, hover: "hover:text-green-500" },
   { name: "Blog", component: Blog, hover: "hover:text-blue-500" },
+  { name: "Sign Up", component: SignUp, hover: "hover:text-orange-500" },
 ];
 
 export default function Home() {

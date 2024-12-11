@@ -323,7 +323,7 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
             Feel free to read them and let me know what you think!
           </h2>
           
-          <div className="md:pl-8 mb-8 w-3/5 max-sm:w-full">
+          <div className="md:pl-8 mb-8 md:w-3/5 max-sm:w-full">
             <TagDropdown
               value={selectedTag}
               onChange={setSelectedTag}
