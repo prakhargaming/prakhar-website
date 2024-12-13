@@ -46,7 +46,8 @@ export default function Home() {
   const CurrentComponent = navigation.find(item => item.name === currentPage)?.component || HomePage;
 
   return (
-    <div className={`h-[100vh] md:p-10 p-5 flex flex-col relative ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <y
+     className={`h-[100vh] md:p-10 p-5 flex flex-col relative ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {/* Overlay Background when Menu is Open */}
       {isMenuOpen && (
         <div
