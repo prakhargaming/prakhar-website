@@ -317,7 +317,7 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
           <h2 className={`text-xl md:mb-4 md:pl-8 max-sm:text-left w-3/4 max-sm:w-full max-sm:mb-4 max-sm:max-h-[15vh] overflow-y-auto ${
             isDarkMode ? 'text-white' : 'text-black'
           }`}>
-            This is a collection of essays that I have written over the years. They are mostly about 
+            This is a collection of essays that I have written   over the years. They are mostly about 
             pieces of fiction I&apos;ve consumed, ranging from books to Anime to video games. 
             I love writing and I&apos;ve always wanted a space to share that passion. 
             Feel free to read them and let me know what you think!
