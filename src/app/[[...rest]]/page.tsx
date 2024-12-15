@@ -1,21 +1,39 @@
 "use client";
 
-import './globals.css'
-import { useState } from 'react';
-import HomePage from './components/HomePage';
-import Blog from './components/BlogPage';
-import Projects from './components/ProjectsPage';
+import { useState, useEffect } from 'react';
+import HomePage from '../components/HomePage';
+import Blog from '../components/BlogPage';
+import Projects from '../components/ProjectsPage';
+import SignUp from '../components/SignUpPage';
 
 const navigation = [
   { name: "Home", component: HomePage, hover: "hover:text-red-500"},
   { name: "Projects", component: Projects, hover: "hover:text-green-500" },
   { name: "Blog", component: Blog, hover: "hover:text-blue-500" },
+  { name: "Login", component: SignUp, hover: "hover:text-orange-500" },
 ];
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [currentPage, setCurrentPage] = useState('Home');
+  const [currentPage, setCurrentPage] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const path = window.location.pathname;
+  
+    if (path.startsWith('/Login')) {
+      setCurrentPage('Login');
+    } else {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get('page');
+      if (page) {
+        setCurrentPage(page);
+      } else {
+        setCurrentPage('Home');
+      }
+    }
+  }, []);
+  
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -28,7 +46,8 @@ export default function Home() {
   const CurrentComponent = navigation.find(item => item.name === currentPage)?.component || HomePage;
 
   return (
-    <div className={`h-[100vh] md:p-10 p-5 flex flex-col relative ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <div
+     className={`h-[100vh] md:p-10 p-5 flex flex-col relative ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {/* Overlay Background when Menu is Open */}
       {isMenuOpen && (
         <div
@@ -51,11 +70,12 @@ export default function Home() {
           {navigation.map((item) => (
             <li key={item.name}>
               <a
-                href={`/${item.name.toLowerCase()}`}
-                className={`text-xl font-bold cursor-pointer ${isDarkMode ? 'text-white' : 'text-black'} ${item.hover}`}  // Corrected here
+                href={`/?page=${item.name}`}
+                className={`text-xl font-bold cursor-pointer ${isDarkMode ? 'text-white' : 'text-black'} ${item.hover}`}
                 onClick={(e) => {
                   e.preventDefault();
                   setCurrentPage(item.name);
+                  window.history.pushState({}, '', `/${item.name}`);
                 }}
               >
                 {item.name}
