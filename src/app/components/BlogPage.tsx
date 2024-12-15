@@ -90,10 +90,16 @@ const TagDropdown = ({
   );
 };
 
-const BlogContent = ({ blog, isDarkMode, onBack }: { 
+const BlogContent = ({ 
+  blog, 
+  isDarkMode, 
+  onBack, 
+  onTagClick  // New prop
+}: { 
   blog: Blog; 
   isDarkMode: boolean; 
   onBack: () => void;
+  onTagClick?: (tag: string) => void;  // Optional prop
 }) => (
   <div className={`w-full max-w-3xl mx-auto h-full overflow-y-auto scrollbar-hide p-8 pt-20 ${
     isDarkMode ? 'bg-black text-white' : 'bg-white text-black'
@@ -111,10 +117,11 @@ const BlogContent = ({ blog, isDarkMode, onBack }: {
       {blog.tags.map(tag => (
         <span 
           key={tag}
-          className={`px-2 py-1 rounded-full text-sm ${
-            isDarkMode 
-              ? 'bg-black text-white' 
-              : 'bg-white text-black'
+          onClick={() => onTagClick && onTagClick(tag)}
+          className={`px-2 py-1 text-sm cursor-pointer ${
+            isDarkMode
+              ? 'bg-white text-black hover:bg-black hover:text-white' 
+              : 'bg-black text-white hover:bg-white hover:text-black' 
           }`}
         >
           {tag}
@@ -342,6 +349,10 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
           onBack={() => {
             setSelectedBlog(null);
             setSeed(Math.random());
+          }}
+          onTagClick={(tag) => {
+            setSelectedBlog(null);  // Go back to main blogs view
+            setSelectedTag(tag);    // Set the selected tag
           }}
         />
       ) : (
