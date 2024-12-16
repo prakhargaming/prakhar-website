@@ -14,7 +14,6 @@ interface HomePageProps {
 }
 
 export default function SignUpPage({ isDarkMode }: HomePageProps) {
-    let index = 0;
 
   return (
     <div className="flex md:flex-row justify-center md:items-center w-full h-full max-sm:flex-col">
@@ -43,7 +42,7 @@ export default function SignUpPage({ isDarkMode }: HomePageProps) {
                 <UserButton />
             </SignedIn>
         </div>
-        <div className='md:hidden md:w-full '>
+        <div className='md:hidden md:w-full'>
             <div
                 className={`flex-shrink-0 w-full h-64 flex justify-center p-3 text-center text-lg cursor-pointer ${
                   isDarkMode ? 'bg-white text-black hover:bg-black hover:text-white hover:border-black' 

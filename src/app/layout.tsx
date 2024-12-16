@@ -4,6 +4,7 @@ import {
 import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { Analytics } from "@vercel/analytics/react"
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,6 +28,7 @@ export default function RootLayout({
       <html lang="en" className={inter.className}>
         <body>
           {children}
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
