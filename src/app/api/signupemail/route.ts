@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   if (!webhookSecret) {
     console.error('Webhook secret not configured');
     return NextResponse.json(
-      { error: 'Webhook secret not configured' }, 
+      { error: 'Webhook secret not configured' },
       { status: 500 }
     );
   }
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
 
     if (evt.type !== 'user.created') {
       return NextResponse.json(
-        { message: 'Skipping non-user.created event' }, 
+        { message: 'Skipping non-user.created event' },
         { status: 200 }
       );
     }
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
     if (!email) {
       return NextResponse.json(
-        { error: 'No email found in webhook payload' }, 
+        { error: 'No email found in webhook payload' },
         { status: 400 }
       );
     }
@@ -51,28 +51,36 @@ export async function POST(req: NextRequest) {
       to: email,
       from: 'prakhar@em101.prakhargaming.com',
       subject: 'Thanks for Signing Up with prakhargaming.com',
-      text: `Hi ${firstName},\n\nI'm Prakhar! I'm really glad you signed up! It means a lot. There's not much going on here as of yet but stay tuned!\nBest,\nPrakhar Gaming`,
+      text: `Hi ${firstName},\n\nI'm Prakhar! I'm really glad you signed up! It means a lot. There's not much going on here as of yet but stay tuned!\n\nBest,\nPrakhar Gaming`,
       html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-        <h1 style="font-size: 24px; color: #333;">Welcome to Prakhar Gaming, ${firstName}!</h1>
-        <p style="font-size: 16px; color: #555; line-height: 1.6;">
-          Hi ${firstName},
-        </p>
-        <p style="font-size: 16px; color: #555; line-height: 1.6;">
-          I'm <strong>Prakhar</strong>! I'm really glad you signed up! It means a lot. There's not much going on here as of yet, but stay tuned for updates and exciting content in the future!
-        </p>
-        <p style="font-size: 16px; color: #555; line-height: 1.6;">
-          Thank you for being a part of this journey.
-        </p>
-        <p style="font-size: 16px; color: #555; line-height: 1.6;">
-          Best regards,<br />
-          <strong>Prakhar Gaming</strong>
-        </p>
-        <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;" />
-        <p style="font-size: 12px; color: #aaa; text-align: center;">
-          You are receiving this email because you signed up at <a href="https://prakhargaming.com" style="color: #3498db; text-decoration: none;">prakhargaming.com</a>.
-        </p>
-      </div>
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Welcome Email</title>
+      </head>
+      <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #ffffff; color: #000000;">
+        <table role="presentation" style="width: 100%; border-spacing: 0; margin: 0; padding: 0; background-color: #ffffff;">
+          <tr>
+            <td align="center" style="padding: 20px;">
+              <table role="presentation" style="max-width: 600px; width: 100%; border-spacing: 0; text-align: left; background-color: #ffffff; border: 1px solid #e0e0e0;">
+                <tr>
+                  <td style="padding: 20px; font-size: 16px; line-height: 1.5; color: #000000;">
+                    <h1 style="font-size: 24px; margin: 0 0 20px; color: #000000;">Hi ${firstName},</h1>
+                    <p style="margin: 0 0 20px; color: #000000;">
+                      I'm really glad you signed up! It means a lot. There's not much going on here as of yet, but stay tuned for updates and exciting content in the future!
+                    </p>
+                    <p style="margin: 0 0 10px; font-weight: bold; color: #000000;">Best,</p>
+                    <p style="margin: 0; font-weight: bold; color: #000000;">Prakhar Gaming</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+      </html>
     `,
     };
 
@@ -90,7 +98,7 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json(
-      { error: 'Webhook processing failed' }, 
+      { error: 'Webhook processing failed' },
       { status: 500 }
     );
   }
@@ -98,8 +106,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   return NextResponse.json(
-    { error: 'Method not allowed' }, 
+    { error: 'Method not allowed' },
     { status: 405 }
   );
 }
-
