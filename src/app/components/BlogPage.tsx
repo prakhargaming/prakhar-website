@@ -13,6 +13,7 @@ interface Blog {
   date: string;
   tags: string[];
   locked: boolean;
+  image?:string;
 }
 
 interface BlogsProps {
@@ -90,16 +91,22 @@ const TagDropdown = ({
   );
 };
 
-const BlogContent = ({ blog, isDarkMode, onBack }: { 
+const BlogContent = ({ 
+  blog, 
+  isDarkMode, 
+  onBack, 
+  onTagClick  // New prop
+}: { 
   blog: Blog; 
   isDarkMode: boolean; 
   onBack: () => void;
+  onTagClick?: (tag: string) => void;  // Optional prop
 }) => (
   <div className={`w-full max-w-3xl mx-auto h-full overflow-y-auto scrollbar-hide p-8 pt-20 ${
     isDarkMode ? 'bg-black text-white' : 'bg-white text-black'
   }`}>
-    <h1 className="text-4xl font-bold mb-6">{blog.title}</h1>
-    <div className="text-sm text-gray-600 mb-4">
+    <h1 className="text-4xl font-bold mb-3">{blog.title}</h1>
+    <div className="text-sm text-gray-600 mb-6">
       <span>By {blog.author}</span>
       {blog.date && (
         <span className="ml-4">
@@ -107,33 +114,43 @@ const BlogContent = ({ blog, isDarkMode, onBack }: {
         </span>
       )}
     </div>
-    <div className="flex flex-wrap gap-2 mb-4">
+    <div className="flex flex-wrap gap-2 mb-6">
       {blog.tags.map(tag => (
         <span 
           key={tag}
-          className={`px-2 py-1 rounded-full text-sm ${
-            isDarkMode 
-              ? 'bg-black text-white' 
-              : 'bg-white text-black'
+          onClick={() => onTagClick && onTagClick(tag)}
+          className={`px-2 py-1 text-sm cursor-pointer ${
+            isDarkMode
+              ? 'bg-white text-black hover:bg-black hover:text-white' 
+              : 'bg-black text-white hover:bg-white hover:text-black' 
           }`}
         >
           {tag}
         </span>
       ))}
     </div>
+    {blog.image && (
+      <div className="mb-6">
+        <img 
+          src={blog.image} 
+          alt={blog.title}
+          className="w-full h-auto"
+        />
+      </div>
+    )}
     <div className="prose lg:prose-xl dark:prose-invert">
       <ReactMarkdown 
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
-          h1: ({node, ...props}) => <h1 className="text-3xl font-bold my-4" {...props} />,
-          h2: ({node, ...props}) => <h2 className="text-2xl font-bold my-3" {...props} />,
-          h3: ({node, ...props}) => <h3 className="text-xl font-bold my-2" {...props} />,
+          h1: ({node, ...props}) => <h1 className="text-3xl font-bold mt-4 mb-2" {...props} />,
+          h2: ({node, ...props}) => <h2 className="text-2xl font-bold mt-4 mb-2" {...props} />,
+          h3: ({node, ...props}) => <h3 className="text-xl font-bold mt-4 mb-2" {...props} />,
           p: ({node, ...props}) => <p className="my-2" {...props} />,
           ul: ({node, ...props}) => <ul className="list-disc ml-4 my-2" {...props} />,
           ol: ({node, ...props}) => <ol className="list-decimal ml-4 my-2" {...props} />,
           blockquote: ({node, ...props}) => (
-            <blockquote className="border-l-4 border-gray-300 pl-4 my-2" {...props} />
+            <blockquote className="italic border-l-4 border-gray-300 pl-4 my-4" {...props} />
           ),
         }}
       >
@@ -317,13 +334,13 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
           <h2 className={`text-xl md:mb-4 md:pl-8 max-sm:text-left w-3/4 max-sm:w-full max-sm:mb-4 max-sm:max-h-[15vh] overflow-y-auto ${
             isDarkMode ? 'text-white' : 'text-black'
           }`}>
-            This is a collection of essays that I have written over the years. They are mostly about 
+            This is a collection of essays that I have written   over the years. They are mostly about 
             pieces of fiction I&apos;ve consumed, ranging from books to Anime to video games. 
             I love writing and I&apos;ve always wanted a space to share that passion. 
             Feel free to read them and let me know what you think!
           </h2>
           
-          <div className="md:pl-8 mb-8 w-3/5 max-sm:w-full">
+          <div className="md:pl-8 mb-4 md:w-3/5 max-sm:w-full">
             <TagDropdown
               value={selectedTag}
               onChange={setSelectedTag}
@@ -342,6 +359,10 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
           onBack={() => {
             setSelectedBlog(null);
             setSeed(Math.random());
+          }}
+          onTagClick={(tag) => {
+            setSelectedBlog(null);  // Go back to main blogs view
+            setSelectedTag(tag);    // Set the selected tag
           }}
         />
       ) : (
