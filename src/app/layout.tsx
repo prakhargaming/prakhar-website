@@ -1,22 +1,36 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import {
+  ClerkProvider
+} from '@clerk/nextjs'
+import { dark, neobrutalism, shadesOfPurple } from '@clerk/themes'
+import './globals.css'
+import { Inter } from 'next/font/google'
+import { Analytics } from "@vercel/analytics/react"
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Prakhar's Website",
-  description: "Developed by Prakhar completely from scratch",
-};
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en">
-      <body className={`${inter.className}`}>{children}</body>
-    </html>
-  );
+    <ClerkProvider
+      appearance={{
+        baseTheme: [neobrutalism],
+        signIn: {
+          variables: { colorPrimary: 'red', borderRadius: '0' },
+        },
+      }}
+    >
+      <html lang="en" className={inter.className}>
+        <body>
+          {children}
+          <Analytics />
+        </body>
+      </html>
+    </ClerkProvider>
+  )
 }

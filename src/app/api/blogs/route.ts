@@ -41,15 +41,18 @@ export async function GET() {
       .sort({ date: -1 })
       .toArray();
 
-    return NextResponse.json(blogs);
-  } catch (error: unknown) {  // Type the error as unknown
-    // Type guard to check if error is an Error object
+    return NextResponse.json(blogs, {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0', // Disable caching
+      },
+    });
+  } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Database error:', error.message);
     } else {
       console.error('Database error:', error);
     }
-    
+
     return NextResponse.json(
       { error: 'Failed to fetch blogs' },
       { status: 500 }

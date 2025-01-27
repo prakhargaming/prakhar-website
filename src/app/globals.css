@@ -143,3 +143,17 @@
   }
 }
 
+/* globals.css */
+.clerk-sign-in-button {
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #007bff; /* Adjust to match your theme */
+  color: white;
+  transition: all 0.3s;
+}
+
+.clerk-sign-in-button:hover {
+  background-color: #0056b3;
+}
+
