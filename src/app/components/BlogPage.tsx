@@ -13,6 +13,7 @@ interface Blog {
   date: string;
   tags: string[];
   locked: boolean;
+  image?:string;
 }
 
 interface BlogsProps {
@@ -104,8 +105,8 @@ const BlogContent = ({
   <div className={`w-full max-w-3xl mx-auto h-full overflow-y-auto scrollbar-hide p-8 pt-20 ${
     isDarkMode ? 'bg-black text-white' : 'bg-white text-black'
   }`}>
-    <h1 className="text-4xl font-bold mb-6">{blog.title}</h1>
-    <div className="text-sm text-gray-600 mb-4">
+    <h1 className="text-4xl font-bold mb-3">{blog.title}</h1>
+    <div className="text-sm text-gray-600 mb-6">
       <span>By {blog.author}</span>
       {blog.date && (
         <span className="ml-4">
@@ -113,7 +114,7 @@ const BlogContent = ({
         </span>
       )}
     </div>
-    <div className="flex flex-wrap gap-2 mb-4">
+    <div className="flex flex-wrap gap-2 mb-6">
       {blog.tags.map(tag => (
         <span 
           key={tag}
@@ -128,19 +129,28 @@ const BlogContent = ({
         </span>
       ))}
     </div>
+    {blog.image && (
+      <div className="mb-6">
+        <img 
+          src={blog.image} 
+          alt={blog.title}
+          className="w-full h-auto"
+        />
+      </div>
+    )}
     <div className="prose lg:prose-xl dark:prose-invert">
       <ReactMarkdown 
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
-          h1: ({node, ...props}) => <h1 className="text-3xl font-bold my-4" {...props} />,
-          h2: ({node, ...props}) => <h2 className="text-2xl font-bold my-3" {...props} />,
-          h3: ({node, ...props}) => <h3 className="text-xl font-bold my-2" {...props} />,
+          h1: ({node, ...props}) => <h1 className="text-3xl font-bold mt-4 mb-2" {...props} />,
+          h2: ({node, ...props}) => <h2 className="text-2xl font-bold mt-4 mb-2" {...props} />,
+          h3: ({node, ...props}) => <h3 className="text-xl font-bold mt-4 mb-2" {...props} />,
           p: ({node, ...props}) => <p className="my-2" {...props} />,
           ul: ({node, ...props}) => <ul className="list-disc ml-4 my-2" {...props} />,
           ol: ({node, ...props}) => <ol className="list-decimal ml-4 my-2" {...props} />,
           blockquote: ({node, ...props}) => (
-            <blockquote className="border-l-4 border-gray-300 pl-4 my-2" {...props} />
+            <blockquote className="italic border-l-4 border-gray-300 pl-4 my-4" {...props} />
           ),
         }}
       >

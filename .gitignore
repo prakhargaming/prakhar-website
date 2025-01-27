@@ -39,4 +39,6 @@ next-env.d.ts
 .vercel
 .env*.local
 
-src/app/components/blogs/sendgrid.env
+src/app/components/blogs/
+
+scripts/pictures/
