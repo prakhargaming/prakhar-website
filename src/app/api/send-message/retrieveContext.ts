@@ -1,0 +1,86 @@
+import { GoogleGenAI } from "@google/genai";
+import { MongoClient } from "mongodb";
+
+function generateDesc({
+    name = '',
+    url = '',
+    languages = '',
+    tags = '',
+    readme = '',
+  }: {
+    name?: string;
+    url?: string;
+    languages?: string;
+    tags?: string;
+    readme?: string;
+  }): string {
+    return `# METADATA
+  Repository name: ${name}
+  Repository URL: ${url}
+  Repository languages: ${languages}
+  Repository topics: ${tags}
+  
+  # README:
+  ${readme}`;
+}
+  
+
+export async function retrieveContext(query: string) {
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI! });
+
+    const client = new MongoClient(process.env.MONGODB_URI!);
+    await client.connect();
+    const database = client.db(process.env.MONGODB_VECTOR_DATABASE);
+    const collection = database.collection(process.env.MONGODB_VECTOR_COLLECTION!);
+
+    const documents: string[] = [];
+
+    const response = await ai.models.embedContent({
+        model: 'text-embedding-004',
+        contents: query,
+        config: {
+            taskType: "SEMANTIC_SIMILARITY",
+        }
+    });
+
+    const query_embedding = response.embeddings
+
+    const pipeline = [
+        {
+          $vectorSearch: {
+            index: 'vector_index',
+            queryVector: query_embedding,
+            path: 'embedding',
+            exact: true,
+            limit: 3,
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            name: 1,
+            readme: 1,
+            topics: 1,
+            languages: 1,
+            score: { $meta: 'vectorSearchScore' },
+          },
+        },
+      ];
+
+    const cursor = collection.aggregate(pipeline);
+    const results = await cursor.toArray();
+
+    for (const r of results) {
+        documents.push(
+            generateDesc({
+                name: r.name,
+                languages: r.languages?.join(', ') ?? '',
+                tags: r.topics?.join(', ') ?? '',
+                readme: r.readme,
+            })
+        );
+    }
+
+    return documents
+
+}
