@@ -10,7 +10,7 @@ export default function Chat_Window() {
         { id: 1, text: "Hi, my name is PrakharGaming, I am an LLM based on Google Gemini 2.0 Flash and I'm here to answer questions about Prakhar's software engineering background! How can I help you?", sender: 'bot' },
     ]);
     
-    const messagesEndRef = useRef(null);
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
     // Auto-scroll to bottom when messages change
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function Chat_Window() {
     }, [messages]);
 
     const scrollToBottom = () => {
-        const messagesEndRef = useRef<HTMLDivElement | null>(null);
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     const handleSubmit = async () => {
