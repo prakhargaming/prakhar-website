@@ -1,7 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { NextRequest, NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
 import { retrieveContext } from "./retrieveContext";
+import { readFile } from 'fs/promises';
+import path from 'path';
 
 type ChatHistoryEntry = {
     role: 'user' | 'model';
@@ -12,15 +13,21 @@ const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI! });
 
 export async function POST(req: NextRequest) {
   try {
-    const { message, history } = await req.json();
+    const { message } = await req.json();
+    const system_prompt_path = path.join(process.cwd(), 'public/system_prompt.txt');
+    const system_prompt = await readFile(system_prompt_path, 'utf-8');
+
 
     // Reconstruct chat from passed history
     const chat = genAI.chats.create({
         model: "gemini-2.0-flash",
-        history: history.map((entry: ChatHistoryEntry) => ({
-            role: entry.role,
-            parts: [{ text: entry.text }],
-          }))          
+        // history: history.map((entry: ChatHistoryEntry) => ({
+        //     role: entry.role,
+        //     parts: [{ text: entry.text }],
+        //   }))
+        config: {
+            systemInstruction: system_prompt,
+        },
     });
     
     const context = await retrieveContext(message)

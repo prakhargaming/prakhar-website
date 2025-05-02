@@ -43,7 +43,7 @@ export async function retrieveContext(query: string) {
         }
     });
 
-    const query_embedding = response.embeddings
+    const query_embedding = response.embeddings?.[0]?.values;
 
     const pipeline = [
         {
@@ -74,12 +74,13 @@ export async function retrieveContext(query: string) {
         documents.push(
             generateDesc({
                 name: r.name,
-                languages: r.languages?.join(', ') ?? '',
-                tags: r.topics?.join(', ') ?? '',
+                languages: r.languages ? Object.keys(r.languages).join(', ') : '',
+                tags: Array.isArray(r.topics) ? r.topics.join(', ') : r.topics ?? '',
                 readme: r.readme,
             })
         );
     }
+    
 
     return documents
 
