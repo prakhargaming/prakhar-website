@@ -1,5 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 export default function Chat_Window() {
     const [message, setMessage] = useState('');
@@ -16,12 +18,12 @@ export default function Chat_Window() {
     }, [messages]);
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        const messagesEndRef = useRef<HTMLDivElement | null>(null);
     };
 
     const handleSubmit = async () => {
         if (!message.trim() || isLoading) return;
-
+    
         try {
             // Add user message to chat
             const newMessage = {
@@ -29,50 +31,56 @@ export default function Chat_Window() {
                 text: message,
                 sender: 'user'
             };
-            setMessages(prev => [...prev, newMessage]);
-            
+            const updatedMessages = [...messages, newMessage];
+            const prunedMessages = updatedMessages.filter(msg => msg.id !== 1);
+            setMessages(updatedMessages);
+    
             // Clear input and set loading state
             setMessage('');
             setIsLoading(true);
-            
-            // Make API call
+    
+            /// Construct chat history in required format
+            const chatHistory = updatedMessages
+            .filter(m => m.sender === 'user' || m.sender === 'bot')
+            .map(m => ({
+                role: m.sender === 'user' ? 'user' : 'model',
+                text: m.text
+            }));
+
+            // Ensure history starts with a user message
+            const firstUserIndex = chatHistory.findIndex(m => m.role === 'user');
+            const prunedHistory = firstUserIndex !== -1 ? chatHistory.slice(firstUserIndex) : [];
+
+    
+            // Make API call with history
             const res = await fetch('/api/send-message', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message }),
+                body: JSON.stringify({
+                    message,
+                    history: prunedHistory
+                }),
             });
-
-            if (!res.ok) {
-                throw new Error('Failed to send message');
-            } 
-            
-            // Get API response
+    
             const data = await res.json();
-            
+    
             // Add bot response to chat
-            const botResponse = {
-                id: messages.length + 2,
+            const botMessage = {
+                id: updatedMessages.length + 1,
                 text: data.response,
                 sender: 'bot'
             };
-            setMessages(prev => [...prev, botResponse]);
-            
-        } catch (err) {
-            console.error('Error:', err);
-            // Add error message to chat
-            const errorMessage = {
-                id: messages.length + 2,
-                text: 'Sorry, there was an error processing your request.',
-                sender: 'bot'
-            };
-            setMessages(prev => [...prev, errorMessage]);
+            setMessages(prev => [...prev, botMessage]);
+        } catch (error) {
+            console.error("Failed to send message:", error);
         } finally {
             setIsLoading(false);
         }
     };
+    
 
     // Handle Enter key to send message
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: any) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             handleSubmit();
@@ -80,21 +88,43 @@ export default function Chat_Window() {
     };
 
     return (
-        <div className="flex flex-col h-screen w-3/4 justify-self-center">
+        <div className="flex flex-col w-3/4 justify-self-center">
             {/* Scrollable message container */}
-            <div className="flex-1 overflow-y-auto p-4 py-16">
-                {messages.map(msg => (
-                    <div 
-                        key={msg.id} 
-                        className={`mb-4 p-3 max-w-xs ${
-                            msg.sender === 'user' 
-                                ? 'ml-auto bg-black text-white' 
-                                : 'mr-auto bg-white text-black border border-gray-200'
-                        }`}
+            <div className="flex-1 overflow-y-auto p-10">
+            {messages.map(msg => (
+                <div 
+                    key={msg.id} 
+                    className={`mb-4 p-3 ${
+                        msg.sender === 'user' 
+                            ? 'ml-auto bg-black text-white' 
+                            : 'mr-auto bg-white text-black border border-gray-200'
+                    }`}
+                >
+                    <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                            p: ({ node, ...props }) => (
+                                <p {...props} className="mb-2 last:mb-0" />
+                            ),
+                            a: ({ node, ...props }) => (
+                                <a {...props} className="text-blue-600 underline" target="_blank" rel="noopener noreferrer" />
+                            ),
+                            ul: ({ node, ...props }) => (
+                                <ul {...props} className="list-disc list-inside last:mb-2" />
+                            ),
+                            ol: ({ node, ...props }) => (
+                                <ol {...props} className="list-decimal list-inside last:mb-2" />
+                            ),
+                            li: ({ node, ...props }) => (
+                                <li {...props} className="ml-4 last:mb-2" />
+                            ),
+                        }}
                     >
                         {msg.text}
-                    </div>
-                ))}
+                    </ReactMarkdown>
+                </div>
+            ))}
+
                 {isLoading && (
                     <div className="mr-auto bg-white text-black border border-gray-200 p-3 max-w-xs">
                         <div className="flex space-x-2">
@@ -119,7 +149,7 @@ export default function Chat_Window() {
                         onKeyDown={handleKeyDown}
                         placeholder="Type your message here..."
                         disabled={isLoading}
-                        className="col-span-8 w-full resize-none bg-white px-3 py-1.5 text-black outline outline-1 -outline-offset-2 outline-gray-300 focus:outline focus:outline-1 focus:-outline-offset-2 focus:outline-black sm:text-sm/6 disabled:opacity-50"
+                        className="col-span-8 w-full resize-none bg-white px-3 py-1.5 text-black outline outline-1 -outline-offset-2 outline-gray-300 focus:outline focus:outline-1 focus:-outline-offset-2 focus:outline-black sm:text-sm/ disabled:opacity-50"
                     />
                     <button 
                         className="bg-black text-white col-span-2 disabled:bg-white disabled:text-gray-500"

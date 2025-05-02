@@ -13,7 +13,7 @@ const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI! });
 
 export async function POST(req: NextRequest) {
   try {
-    const { message } = await req.json();
+    const { message, history } = await req.json();
     const system_prompt_path = path.join(process.cwd(), 'public/system_prompt.txt');
     const system_prompt = await readFile(system_prompt_path, 'utf-8');
 
@@ -21,10 +21,10 @@ export async function POST(req: NextRequest) {
     // Reconstruct chat from passed history
     const chat = genAI.chats.create({
         model: "gemini-2.0-flash",
-        // history: history.map((entry: ChatHistoryEntry) => ({
-        //     role: entry.role,
-        //     parts: [{ text: entry.text }],
-        //   }))
+        history: history.map((entry: ChatHistoryEntry) => ({
+            role: entry.role,
+            parts: [{ text: entry.text }],
+          })),
         config: {
             systemInstruction: system_prompt,
         },
