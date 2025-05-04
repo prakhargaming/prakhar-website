@@ -7,34 +7,29 @@ import path from 'path';
 type ChatHistoryEntry = {
     role: 'user' | 'model';
     text: string;
-  };  
+};
 
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI! });
+const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
 
 export async function POST(req: NextRequest) {
   try {
+    // Make sure we're explicitly using the API key from env variable    
     const { message, history } = await req.json();
     const system_prompt_path = path.join(process.cwd(), 'public/system_prompt.txt');
-    const system_prompt = await readFile(system_prompt_path, 'utf-8');
-
-
-    // Reconstruct chat from passed history
-    const chat = genAI.chats.create({
-        model: "gemini-2.0-flash",
-        history: history.map((entry: ChatHistoryEntry) => ({
-            role: entry.role,
-            parts: [{ text: entry.text }],
-          })),
+    const system_prompt = await readFile(system_prompt_path, 'utf-8');    
+    const context = await retrieveContext(message);
+    const prompt = `Context: ${context.join('\n\n')}\n\nQuery: ${message}`
+    const result = genAI.models.generateContent(
+      {
+        model: "gemini-2.0-flash-lite",
+        contents: prompt,
         config: {
-            systemInstruction: system_prompt,
+          systemInstruction: system_prompt
         },
-    });
-    
-    const context = await retrieveContext(message)
-    const result = await chat.sendMessage({ message: `Context: ${context.join('\n\n')}\n\nQuery: ${message}` });
-
-    const responseText = result.text;
-    console.log(result.text)
+      }
+    );
+    const responseText = (await result).text
+    console.log(responseText);
     return NextResponse.json({ response: responseText });
   } catch (err) {
     console.error("Error in send-message:", err);

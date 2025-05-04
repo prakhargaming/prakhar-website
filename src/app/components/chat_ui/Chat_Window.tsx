@@ -32,7 +32,6 @@ export default function Chat_Window() {
                 sender: 'user'
             };
             const updatedMessages = [...messages, newMessage];
-            const prunedMessages = updatedMessages.filter(msg => msg.id !== 1);
             setMessages(updatedMessages);
     
             // Clear input and set loading state
@@ -50,7 +49,6 @@ export default function Chat_Window() {
             // Ensure history starts with a user message
             const firstUserIndex = chatHistory.findIndex(m => m.role === 'user');
             const prunedHistory = firstUserIndex !== -1 ? chatHistory.slice(firstUserIndex) : [];
-
     
             // Make API call with history
             const res = await fetch('/api/send-message', {
@@ -117,6 +115,9 @@ export default function Chat_Window() {
                             ),
                             li: ({ node, ...props }) => (
                                 <li {...props} className="ml-4 last:mb-2" />
+                            ),
+                            hr: ({ node, ...props }) => (
+                                <hr {...props} className="my-4" />
                             ),
                         }}
                     >

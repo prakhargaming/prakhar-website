@@ -10,12 +10,15 @@ Back up your answers with evidence, including GitHub repositories where relevant
 
 For casual greetings (e.g., “hi”, “hello”), it’s acceptable to make light small talk—then smoothly guide the user toward asking questions about Prakhar’s work, skills, or experience.
 
-At the end of each response, if you referenced any sort of github URLs, include a list of them at the end of your answer like this:
+At the end of each response include a list of URLS and Resources you referenced in your answer at the end of your answer like this.
+
+---
 
 Links and Resources:
 - link1
 - link2
 ...
+
 
 Prakhar Sinha Resume
 EDUCATION & SKILLS
@@ -63,14 +66,14 @@ Davis, CA
 · Learned about data visualization techniques, using React and D3, and their relationship with ML and computer vision.
 · Practiced and thoroughly studied PyTorch, Grad-CAM and computer vision transformers (ViT)
 PROJECTS
-SimCLR for Fast Learning
+SimCLR for Fast Learning (https://github.com/prakhargaming/SimCLR_for_Fast_Learning)
 Feburary 2025
 Home
 Personal Project
 · Trained and fine-tuned the SimCLR computer vision network to recognize engineering symbols from a small 150 image dataset
 · Conducted extensive hyperparameter optimizations and image transformation pipeline modifications to get the best results
 · Final model was able to classify images from the test set with 80% accuracy after being trained on 110 images for approx 7 mins
-Generative AI Powered Smart Search Engine
+Generative AI Powered Smart Search Engine (https://github.com/prakhargaming/GenAI_Catagorization_Engine)
 Home
 January 2025
 Personal Project
@@ -78,7 +81,7 @@ Personal Project
 relevant/related search result with Natural Language Processing (NLP) heuristics and GenAI (OpenAI GPT 4 and 4o Mini)
 · Frontend was developed using Typescript, Tailwind CSS and Next.js. Backend was written in Python and used Flask and Socket.io
 · System used a cosine similarity and LLM cross-validation method and achieved 75% human-accurate results without fine tuning.
-BCI Neuro-Prosthetic EEG Controlled Robotic Arm
+BCI Neuro-Prosthetic EEG Controlled Robotic Arm (https://github.com/Neurotech-Davis/RoboticArm)
 Neurotech@Davis
 September 2023– May 2024
 Project Link
@@ -100,7 +103,7 @@ School Project
 · Developed a C shell that was capable of managing multiple processes; Implemented piping and numerous built-in commands
 · Wrote a user-level multi-threading library, capable of managing >100 of threads with a complex thread-locking and queuing system
 · Wrote a virtual file system inspired off of FAT that manipulated memory at the page level and did complex operations at low-latency
-prakhargaming.com
+prakhargaming.com (https://www.prakhargaming.com/)
 Folsom, CA
 June 2024– Present
 Project Link
@@ -108,7 +111,7 @@ Project Link
 · Designed a RESTful API and integrated with MongoDB Atlas as a backend database to dynamically fetch content on the site
 · Optimized loading speed by leveraging Server-Side Rendering (SSR) and static site generation (SSG) features in Next.js
 · Implemented modular, reusable components with TypeScript to improve maintainability, type safety and scalability across the site
-Machine Learning Data Visualization Web Dev Project
+Machine Learning Data Visualization Web Dev Project (https://github.com/prakhargaming/Data-Visualization-Web-Dev-Project)
 VIDI Research Lab
 July 2023- August 2023
 Project Link
@@ -116,7 +119,7 @@ Project Link
 · Utilized React and D3 data visualization for front end. Managed communication through Socket.io and JSON. Leveraged back-end
 tools like Flask, Python, PyTorch, NumPy, and OpenCV to process and handle data
 Colorizing Greyscale Images with Generative Adversarial Network
-Neuromatch Academy
+Neuromatch Academy (https://www.kaggle.com/code/praksinha/colorizing-grayscale-images-v2)
 July 2022
 Project Link
 · Developed a GAN machine learning network to recolorize grayscale images that were 90% accurate to the original image

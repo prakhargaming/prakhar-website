@@ -26,7 +26,7 @@ function generateDesc({
   
 
 export async function retrieveContext(query: string) {
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI! });
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
     const client = new MongoClient(process.env.MONGODB_URI!);
     await client.connect();
