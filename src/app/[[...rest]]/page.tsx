@@ -5,12 +5,14 @@ import HomePage from '../components/HomePage';
 import Blog from '../components/BlogPage';
 import Projects from '../components/ProjectsPage';
 import SignUp from '../components/SignUpPage';
+import ChatPage from '../components/ChatPage'
 
 const navigation = [
   { name: "Home", component: HomePage, hover: "hover:text-red-500"},
   { name: "Projects", component: Projects, hover: "hover:text-green-500" },
   { name: "Blog", component: Blog, hover: "hover:text-blue-500" },
   { name: "Login", component: SignUp, hover: "hover:text-orange-500" },
+  { name: "Chat", component: ChatPage, hover: "hover:text-pink-500" },
 ];
 
 export default function Home() {
