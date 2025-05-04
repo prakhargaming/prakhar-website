@@ -59,7 +59,7 @@ export default function Home() {
       )}
 
       {/* Navbar */}
-      <nav className={`absolute top-0 left-0 flex justify-end p-7 ${isDarkMode ? 'bg-black' : 'bg-white'} z-30 md:ml-20`}>
+      <nav className={`absolute bg-opacity-0 top-0 left-0 flex justify-end p-7 ${isDarkMode ? 'bg-black' : 'bg-white'} z-30 md:ml-20`}>
         {/* Hamburger Menu for Mobile */}
         <div className={`md:hidden flex justify-between items-center w-full ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
           <button onClick={toggleMenu} className="text-4xl font-extrabold">

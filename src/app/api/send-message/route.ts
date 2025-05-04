@@ -13,7 +13,7 @@ const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
 
 export async function POST(req: NextRequest) {
   try {
-    // Make sure we're explicitly using the API key from env variable    
+    console.log("Send message setup")
     const { message, history } = await req.json();
     const system_prompt_path = path.join(process.cwd(), 'public/system_prompt.txt');
     const system_prompt = await readFile(system_prompt_path, 'utf-8');    

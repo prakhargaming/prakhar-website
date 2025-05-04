@@ -1,17 +1,11 @@
 import Chat_Window from "./chat_ui/Chat_Window";
-import { useState } from "react";
 
-type Message = {
-    sender: 'user' | 'bot';
-    text: string;
-    timestamp: number;
-  };
+interface darkMode {
+    isDarkMode: boolean;
+}
 
-export default function ChatPage() {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [history, setHistory] = useState<{ role: 'user' | 'model', text: string }[]>([]);
-
+export default function ChatPage({ isDarkMode }: darkMode) {
     return(
-        <Chat_Window/>
+        <Chat_Window isDarkMode={isDarkMode}/>
     );
 }

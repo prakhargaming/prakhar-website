@@ -3,11 +3,15 @@ import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-export default function Chat_Window() {
+interface darkMode {
+    isDarkMode: boolean;
+}
+
+export default function Chat_Window({ isDarkMode }: darkMode) {
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [messages, setMessages] = useState([
-        { id: 1, text: "Hi, my name is PrakharGaming, I am an LLM based on Google Gemini 2.0 Flash and I'm here to answer questions about Prakhar's software engineering background! How can I help you?", sender: 'bot' },
+        { id: 1, text: "Hi, my name is PrakharGaming, I am an RAG-Enabled LLM based on Google Gemini 2.0 Flash and I'm here to answer questions about Prakhar's software engineering background! How can I help you?", sender: 'bot' },
     ]);
     
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -86,7 +90,7 @@ export default function Chat_Window() {
     };
 
     return (
-        <div className="flex flex-col w-3/4 justify-self-center">
+        <div className="flex flex-col h-full md:w-3/4 justify-self-center max-sm:w-full max-sm:pt-5">
             {/* Scrollable message container */}
             <div className="flex-1 overflow-y-auto p-10">
             {messages.map(msg => (
@@ -137,9 +141,41 @@ export default function Chat_Window() {
                 )}
                 <div ref={messagesEndRef} />
             </div>
+
+            {/* Mobile Input */}    
+            <div className="w-full md:hidden">
+                    <div className={`grid grid-cols-10 p-4
+                                     ${isDarkMode ? 'bg-black' : 'bg-white'}`}>
+                        <textarea
+                            id="comment"
+                            name="comment"
+                            value={message}
+                            rows={3}
+                            onChange={(e) => setMessage(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Type your message here..."
+                            disabled={isLoading}
+                            className={`col-span-8 w-full resize-none bg-white px-3 
+                                        py-1.5 text-black outline outline-1 -outline-offset-2
+                                        outline-gray-300 focus:outline focus:outline-1 
+                                        focus:-outline-offset-2 focus:outline-black sm:text-sm 
+                                        disabled:opacity-50`}
+                        />
+                        <button 
+                            className="bg-black text-white col-span-2 disabled:bg-white 
+                                        outline outline-1 outline-black
+                                       -outline-offset-2 disabled:outline disabled:outline-1
+                                       disabled:outline-gray-300 disabled:text-gray-300"
+                            onClick={handleSubmit}
+                            disabled={isLoading || !message.trim()}
+                        >
+                            ↑
+                        </button>
+                    </div>
+                </div>
             
             {/* Fixed input at bottom */}
-            <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-1/2">
+            <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-1/2 hidden md:block">
                 <div className="grid grid-cols-10 bg-white p-4">
                     <textarea
                         id="comment"

@@ -26,8 +26,8 @@ function generateDesc({
   
 
 export async function retrieveContext(query: string) {
+    console.log("Setup for retrieve context")
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
     const client = new MongoClient(process.env.MONGODB_URI!);
     await client.connect();
     const database = client.db(process.env.MONGODB_VECTOR_DATABASE);
@@ -43,6 +43,7 @@ export async function retrieveContext(query: string) {
         }
     });
 
+    console.log("Context retrieved")
     const query_embedding = response.embeddings?.[0]?.values;
 
     const pipeline = [
@@ -69,7 +70,8 @@ export async function retrieveContext(query: string) {
 
     const cursor = collection.aggregate(pipeline);
     const results = await cursor.toArray();
-
+    
+    console.log("Related documents retrived")
     for (const r of results) {
         documents.push(
             generateDesc({
