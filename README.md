@@ -1,4 +1,7 @@
 # [prakhargaming.com](https://www.prakhargaming.com)
+
+![demo](demo.gif)
+
 [prakhargaming.com](https://www.prakhargaming.com) is my fully responsive and modern personal website that also serves as my portfolio. It started off as a dumb exercise in front-end development but it has evolved into a space that I use to test out and demonstrate my skills as a developer.
 
 ## Tech Stack
