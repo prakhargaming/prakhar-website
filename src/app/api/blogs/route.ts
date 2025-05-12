@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
-import { MongoClient } from 'mongodb';
+import { NextResponse } from "next/server";
+import { MongoClient } from "mongodb";
 
 declare global {
   namespace NodeJS {
@@ -17,7 +17,7 @@ async function connectToDatabase() {
   }
 
   if (!process.env.MONGODB_URI) {
-    throw new Error('Please define the MONGODB_URI environment variable');
+    throw new Error("Please define the MONGODB_URI environment variable");
   }
 
   try {
@@ -25,37 +25,37 @@ async function connectToDatabase() {
     cachedClient = client;
     return client;
   } catch (e) {
-    console.error('Failed to connect to database:', e);
-    throw new Error('Unable to connect to database');
+    console.error("Failed to connect to database:", e);
+    throw new Error("Unable to connect to database");
   }
 }
 
 export async function GET() {
   try {
     const client = await connectToDatabase();
-    const db = client.db('Prakharbase');
-    
+    const db = client.db("Prakharbase");
+
     const blogs = await db
-      .collection('blogs')
+      .collection("blogs")
       .find({})
       .sort({ date: -1 })
       .toArray();
 
     return NextResponse.json(blogs, {
       headers: {
-        'Cache-Control': 'no-store, max-age=0', // Disable caching
+        "Cache-Control": "no-store, max-age=0", // Disable caching
       },
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error('Database error:', error.message);
+      console.error("Database error:", error.message);
     } else {
-      console.error('Database error:', error);
+      console.error("Database error:", error);
     }
 
     return NextResponse.json(
-      { error: 'Failed to fetch blogs' },
-      { status: 500 }
+      { error: "Failed to fetch blogs" },
+      { status: 500 },
     );
   }
 }

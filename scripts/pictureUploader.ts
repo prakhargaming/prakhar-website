@@ -16,7 +16,7 @@ const IMAGES_FOLDER = path.resolve(__dirname, "pictures");
 const BLOG_IMAGE_MAP: Record<string, string> = {
   "eva1.jpg": "End of Evangelion Should (Not) Exist",
   "Parasite.jpg": "Parasite and the Human Condition",
-  "senku.jpg": "Dr. Stone's Perfect Sequence"
+  "senku.jpg": "Dr. Stone's Perfect Sequence",
 };
 
 async function uploadImagesToMongoDB() {
@@ -44,13 +44,15 @@ async function uploadImagesToMongoDB() {
 
       const result = await collection.updateOne(
         { title: blogTitle },
-        { $set: { image: imageBase64 } }
+        { $set: { image: imageBase64 } },
       );
 
       if (result.matchedCount > 0) {
         console.log(`Updated blog "${blogTitle}" with image "${imageFile}"`);
       } else {
-        console.warn(`No blog found with title "${blogTitle}" for image "${imageFile}"`);
+        console.warn(
+          `No blog found with title "${blogTitle}" for image "${imageFile}"`,
+        );
       }
     }
   } catch (error) {
