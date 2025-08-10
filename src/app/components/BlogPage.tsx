@@ -4,6 +4,7 @@ import PasswordModal from "./PasswordModal";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import remarkSmartypants from "remark-smartypants";
 
 interface Blog {
   _id: string;
@@ -143,7 +144,9 @@ const BlogContent = ({
     )}
     <div className="prose lg:prose-xl dark:prose-invert">
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
+        remarkPlugins={[remarkGfm,
+          [remarkSmartypants, { dashes: "oldschool" }],
+        ]}
         rehypePlugins={[rehypeRaw]}
         components={{
           h1: ({ node, ...props }) => (
