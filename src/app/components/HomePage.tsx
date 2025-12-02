@@ -75,18 +75,19 @@ export default function HomePage({ isDarkMode }: HomePageProps) {
         <p
           className={`text-md md:text-lg text-justify ${isDarkMode ? "text-white" : "text-black"}`}
         >
-          Hi, welcome to my website! My name is Prakhar Sinha. I recently
-          graduated from UC Davis and am looking to break into the software
-          industry. In my spare time, you can find me enjoying nature, playing a
-          video game, or reading a book. When it comes to computer science I
-          have three main areas of focus: <br /> <br />
+          Hi, welcome to my website! My name is Prakhar Sinha. I am UC Davis
+          Computer Science graduate and I work as an AI Engineer (Full-stack,
+          backend, AI emphasis) at HuLoop Automation. In my spare time, you can
+          find me enjoying nature, playing a video game, or reading a book. When
+          it comes to computer science I have three main areas of focus: <br />{" "}
+          <br />
         </p>
         <ul className="text-right text-xl md:text-2xl">
           <li>
             <b> AI/Computer Vision,</b>
           </li>
           <li>
-            <b>Front-End,</b>
+            <b>Full-Stack,</b>
           </li>
           <li>
             <b>BCI Development</b>.

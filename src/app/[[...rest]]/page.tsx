@@ -6,6 +6,7 @@ import Blog from "../components/BlogPage";
 import Projects from "../components/ProjectsPage";
 import SignUp from "../components/SignUpPage";
 import ChatPage from "../components/ChatPage";
+import RainbowWord from "../components/FunRainbowWord";
 
 const navigation = [
   { name: "Home", component: HomePage, hover: "hover:text-red-500" },
@@ -89,6 +90,22 @@ export default function Home() {
               </a>
             </li>
           ))}
+          <li>
+            <a
+              href="https://ai-rag-voice-agent.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer"
+            >
+              <RainbowWord
+                text="Agent"
+                className={`text-xl font-bold hover:text-pink-500 ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              />
+            </a>
+          </li>
+
           <li>
             <a
               href="https://www.linkedin.com/in/prakhar-sinha-57a412201/"
