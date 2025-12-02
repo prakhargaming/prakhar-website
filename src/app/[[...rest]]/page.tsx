@@ -167,6 +167,21 @@ export default function Home() {
             ))}
             <li>
               <a
+                href="https://ai-rag-voice-agent.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer"
+              >
+                <RainbowWord
+                  text="Agent"
+                  className={`text-xl font-bold hover:text-pink-500 ${
+                    isDarkMode ? "text-white" : "text-black"
+                  }`}
+                />
+              </a>
+            </li>
+            <li>
+              <a
                 href="https://www.linkedin.com/in/prakhar-sinha-57a412201/"
                 target="_blank"
                 rel="noopener noreferrer"
