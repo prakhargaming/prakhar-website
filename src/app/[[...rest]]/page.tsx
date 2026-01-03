@@ -22,18 +22,12 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const path = window.location.pathname;
-
-    if (path.startsWith("/Login")) {
-      setCurrentPage("Login");
+    const path = window.location.pathname.replace("/", "");
+    if (path) {
+      const pageName = path.charAt(0).toUpperCase() + path.slice(1);
+      setCurrentPage(pageName);
     } else {
-      const params = new URLSearchParams(window.location.search);
-      const page = params.get("page");
-      if (page) {
-        setCurrentPage(page);
-      } else {
-        setCurrentPage("Home");
-      }
+      setCurrentPage("Home");
     }
   }, []);
 
@@ -78,7 +72,7 @@ export default function Home() {
           {navigation.map((item) => (
             <li key={item.name}>
               <a
-                href={`/?page=${item.name}`}
+                href={`/${item.name}`}
                 className={`text-xl font-bold cursor-pointer ${isDarkMode ? "text-white" : "text-black"} ${item.hover}`}
                 onClick={(e) => {
                   e.preventDefault();
@@ -153,11 +147,12 @@ export default function Home() {
             {navigation.map((item) => (
               <li key={item.name}>
                 <a
-                  href={`/${item.name.toLowerCase()}`}
+                  href={`/${item.name}`}
                   className={`text-xl font-bold cursor-pointer hover:text-red-500 ${isDarkMode ? "text-white" : "text-black"}`}
                   onClick={(e) => {
                     e.preventDefault();
                     setCurrentPage(item.name);
+                    window.history.pushState({}, "", `/${item.name}`);
                     toggleMenu(); // Close the menu after clicking
                   }}
                 >
