@@ -19,9 +19,15 @@ export default function Projects({ isDarkMode }: HomePageProps) {
 
   const projects: Project[] = [
     {
+      name: "prakhar-agent: An RAG-Enabled AI Voice Agent",
+      href: "https://github.com/prakhargaming/AI-RAG-Voice-Agent",
+      date: "November 2025",
+      source: "Personal Project",
+    },
+    {
       name: "DHS: Davis Housing Services",
-      href: "https://github.com/davis-housing-services/dhs",
-      date: "Present",
+      href: "https://github.com/davis-housing-services/dhs-frontend",
+      date: "July 2024 - November 2024",
       source: "Startup with Friends",
     },
     {
@@ -146,7 +152,7 @@ export default function Projects({ isDarkMode }: HomePageProps) {
               {item.name}
             </a>
             <h2
-              className={`items-center justify-center text-center text-lg ${isDarkMode ? "text-white" : "text-black"}`}
+              className={`items-center justify-center text-center text-lg p-1 ${isDarkMode ? "text-white" : "text-black"}`}
             >
               {item.date}
             </h2>
