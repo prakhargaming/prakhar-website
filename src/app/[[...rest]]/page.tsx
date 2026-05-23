@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import HomePage from "../components/HomePage";
 import Blog from "../components/BlogPage";
 import Projects from "../components/ProjectsPage";
@@ -56,8 +56,9 @@ export default function Home() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const CurrentComponent =
-    navigation.find((item) => item.name === currentPage)?.component || HomePage;
+  const CurrentComponent = (
+    navigation.find((item) => item.name === currentPage)?.component || HomePage
+  ) as React.ComponentType<{ isDarkMode: boolean }>;
 
   return (
     <div
