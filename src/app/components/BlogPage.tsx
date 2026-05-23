@@ -319,10 +319,10 @@ export default function Blogs({ isDarkMode, blogSlug, onNavigate }: BlogsProps) 
     if (blog.locked) {
       setCurrentLockedBlog(blog);
       setIsModalOpen(true);
-      onNavigate(`/Blog/${toSlug(blog.title)}`);
+      onNavigate(`/blog/${toSlug(blog.title)}`);
     } else {
       onNavigate(
-        selectedBlog?._id === blog._id ? "/Blog" : `/Blog/${toSlug(blog.title)}`
+        selectedBlog?._id === blog._id ? "/blog" : `/blog/${toSlug(blog.title)}`
       );
     }
   };
@@ -408,10 +408,10 @@ export default function Blogs({ isDarkMode, blogSlug, onNavigate }: BlogsProps) 
         <BlogContent
           blog={selectedBlog}
           isDarkMode={isDarkMode}
-          onBack={() => onNavigate("/Blog")}
+          onBack={() => onNavigate("/blog")}
           onTagClick={(tag) => {
             setSelectedTag(tag);
-            onNavigate("/Blog");
+            onNavigate("/blog");
           }}
         />
       ) : (
@@ -449,7 +449,7 @@ export default function Blogs({ isDarkMode, blogSlug, onNavigate }: BlogsProps) 
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
-          if (!selectedBlog) onNavigate("/Blog");
+          if (!selectedBlog) onNavigate("/blog");
         }}
         onSubmit={handlePasswordSubmit}
         isDarkMode={isDarkMode}

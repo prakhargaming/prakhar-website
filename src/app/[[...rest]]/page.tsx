@@ -90,11 +90,11 @@ export default function Home() {
           {navigation.map((item) => (
             <li key={item.name}>
               <a
-                href={`/${item.name}`}
+                href={`/${item.name.toLowerCase()}`}
                 className={`text-xl font-bold cursor-pointer ${isDarkMode ? "text-white" : "text-black"} ${item.hover}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate(`/${item.name}`);
+                  navigate(`/${item.name.toLowerCase()}`);
                 }}
               >
                 {item.name}
@@ -164,11 +164,11 @@ export default function Home() {
             {navigation.map((item) => (
               <li key={item.name}>
                 <a
-                  href={`/${item.name}`}
+                  href={`/${item.name.toLowerCase()}`}
                   className={`text-xl font-bold cursor-pointer hover:text-red-500 ${isDarkMode ? "text-white" : "text-black"}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    navigate(`/${item.name}`);
+                    navigate(`/${item.name.toLowerCase()}`);
                     toggleMenu();
                   }}
                 >
