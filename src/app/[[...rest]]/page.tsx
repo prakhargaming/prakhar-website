@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import HomePage from "../components/HomePage";
 import Blog from "../components/BlogPage";
 import Projects from "../components/ProjectsPage";
@@ -20,15 +20,32 @@ export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentPage, setCurrentPage] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [blogSlug, setBlogSlug] = useState<string | null>(null);
+
+  const navigate = (path: string) => {
+    window.history.pushState({}, "", path);
+    const segments = path.split("/").filter(Boolean);
+    setCurrentPage(
+      segments[0]
+        ? segments[0].charAt(0).toUpperCase() + segments[0].slice(1)
+        : "Home"
+    );
+    setBlogSlug(segments[1] ?? null);
+  };
 
   useEffect(() => {
-    const path = window.location.pathname.replace("/", "");
-    if (path) {
-      const pageName = path.charAt(0).toUpperCase() + path.slice(1);
-      setCurrentPage(pageName);
-    } else {
-      setCurrentPage("Home");
-    }
+    const syncFromUrl = () => {
+      const segments = window.location.pathname.split("/").filter(Boolean);
+      setCurrentPage(
+        segments[0]
+          ? segments[0].charAt(0).toUpperCase() + segments[0].slice(1)
+          : "Home"
+      );
+      setBlogSlug(segments[1] ?? null);
+    };
+    syncFromUrl();
+    window.addEventListener("popstate", syncFromUrl);
+    return () => window.removeEventListener("popstate", syncFromUrl);
   }, []);
 
   const toggleTheme = () => {
@@ -39,8 +56,9 @@ export default function Home() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const CurrentComponent =
-    navigation.find((item) => item.name === currentPage)?.component || HomePage;
+  const CurrentComponent = (
+    navigation.find((item) => item.name === currentPage)?.component || HomePage
+  ) as React.ComponentType<{ isDarkMode: boolean }>;
 
   return (
     <div
@@ -76,8 +94,7 @@ export default function Home() {
                 className={`text-xl font-bold cursor-pointer ${isDarkMode ? "text-white" : "text-black"} ${item.hover}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  setCurrentPage(item.name);
-                  window.history.pushState({}, "", `/${item.name}`);
+                  navigate(`/${item.name}`);
                 }}
               >
                 {item.name}
@@ -151,9 +168,8 @@ export default function Home() {
                   className={`text-xl font-bold cursor-pointer hover:text-red-500 ${isDarkMode ? "text-white" : "text-black"}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    setCurrentPage(item.name);
-                    window.history.pushState({}, "", `/${item.name}`);
-                    toggleMenu(); // Close the menu after clicking
+                    navigate(`/${item.name}`);
+                    toggleMenu();
                   }}
                 >
                   {item.name}
@@ -219,7 +235,11 @@ export default function Home() {
       <div
         className={`md:border md:border-solid ${isDarkMode ? "border-white" : "border-black"} h-[100vh] p-5 max-h-[100vh] overflow-auto z-10`}
       >
-        <CurrentComponent isDarkMode={isDarkMode} />
+        {currentPage === "Blog" ? (
+          <Blog isDarkMode={isDarkMode} blogSlug={blogSlug} onNavigate={navigate} />
+        ) : (
+          <CurrentComponent isDarkMode={isDarkMode} />
+        )}
       </div>
     </div>
   );

@@ -19,7 +19,15 @@ interface Blog {
 
 interface BlogsProps {
   isDarkMode: boolean;
+  blogSlug?: string | null;
+  onNavigate: (path: string) => void;
 }
+
+const toSlug = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 
 // Custom dropdown component
 const TagDropdown = ({
@@ -247,7 +255,7 @@ const useBlogFetch = () => {
   };
 };
 
-export default function Blogs({ isDarkMode }: BlogsProps) {
+export default function Blogs({ isDarkMode, blogSlug, onNavigate }: BlogsProps) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [seed, setSeed] = useState(1);
@@ -256,6 +264,23 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
 
   const { blogs, isLoading, error, selectedTag, setSelectedTag, allTags } =
     useBlogFetch();
+
+  useEffect(() => {
+    if (blogSlug == null) {
+      setSelectedBlog(null);
+      setSeed(Math.random());
+      return;
+    }
+    if (blogs.length === 0) return;
+    const blog = blogs.find((b) => toSlug(b.title) === blogSlug);
+    if (!blog) return;
+    if (blog.locked) {
+      setCurrentLockedBlog(blog);
+      setIsModalOpen(true);
+    } else {
+      setSelectedBlog(blog);
+    }
+  }, [blogs, blogSlug]);
 
   // Handle horizontal scrolling
   useEffect(() => {
@@ -294,9 +319,11 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
     if (blog.locked) {
       setCurrentLockedBlog(blog);
       setIsModalOpen(true);
+      onNavigate(`/Blog/${toSlug(blog.title)}`);
     } else {
-      setSelectedBlog(selectedBlog?._id === blog._id ? null : blog);
-      setSeed(Math.random());
+      onNavigate(
+        selectedBlog?._id === blog._id ? "/Blog" : `/Blog/${toSlug(blog.title)}`
+      );
     }
   };
 
@@ -381,13 +408,10 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
         <BlogContent
           blog={selectedBlog}
           isDarkMode={isDarkMode}
-          onBack={() => {
-            setSelectedBlog(null);
-            setSeed(Math.random());
-          }}
+          onBack={() => onNavigate("/Blog")}
           onTagClick={(tag) => {
-            setSelectedBlog(null); // Go back to main blogs view
-            setSelectedTag(tag); // Set the selected tag
+            setSelectedTag(tag);
+            onNavigate("/Blog");
           }}
         />
       ) : (
@@ -423,7 +447,10 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
 
       <PasswordModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          if (!selectedBlog) onNavigate("/Blog");
+        }}
         onSubmit={handlePasswordSubmit}
         isDarkMode={isDarkMode}
       />
