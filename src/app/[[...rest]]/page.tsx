@@ -20,12 +20,15 @@ export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentPage, setCurrentPage] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [blogSlug, setBlogSlug] = useState<string | null>(null);
 
   useEffect(() => {
-    const path = window.location.pathname.replace("/", "");
-    if (path) {
-      const pageName = path.charAt(0).toUpperCase() + path.slice(1);
+    const segments = window.location.pathname.split("/").filter(Boolean);
+    if (segments.length > 0) {
+      const pageName =
+        segments[0].charAt(0).toUpperCase() + segments[0].slice(1);
       setCurrentPage(pageName);
+      if (segments.length > 1) setBlogSlug(segments[1]);
     } else {
       setCurrentPage("Home");
     }
@@ -219,7 +222,11 @@ export default function Home() {
       <div
         className={`md:border md:border-solid ${isDarkMode ? "border-white" : "border-black"} h-[100vh] p-5 max-h-[100vh] overflow-auto z-10`}
       >
-        <CurrentComponent isDarkMode={isDarkMode} />
+        {currentPage === "Blog" ? (
+          <Blog isDarkMode={isDarkMode} initialSlug={blogSlug ?? undefined} />
+        ) : (
+          <CurrentComponent isDarkMode={isDarkMode} />
+        )}
       </div>
     </div>
   );

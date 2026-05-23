@@ -19,7 +19,14 @@ interface Blog {
 
 interface BlogsProps {
   isDarkMode: boolean;
+  initialSlug?: string;
 }
+
+const toSlug = (title: string) =>
+  title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 
 // Custom dropdown component
 const TagDropdown = ({
@@ -247,15 +254,30 @@ const useBlogFetch = () => {
   };
 };
 
-export default function Blogs({ isDarkMode }: BlogsProps) {
+export default function Blogs({ isDarkMode, initialSlug }: BlogsProps) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [seed, setSeed] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentLockedBlog, setCurrentLockedBlog] = useState<Blog | null>(null);
+  const initialSlugHandled = useRef(false);
 
   const { blogs, isLoading, error, selectedTag, setSelectedTag, allTags } =
     useBlogFetch();
+
+  useEffect(() => {
+    if (!initialSlug || blogs.length === 0 || initialSlugHandled.current)
+      return;
+    initialSlugHandled.current = true;
+    const blog = blogs.find((b) => toSlug(b.title) === initialSlug);
+    if (!blog) return;
+    if (blog.locked) {
+      setCurrentLockedBlog(blog);
+      setIsModalOpen(true);
+    } else {
+      setSelectedBlog(blog);
+    }
+  }, [blogs, initialSlug]);
 
   // Handle horizontal scrolling
   useEffect(() => {
@@ -294,8 +316,15 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
     if (blog.locked) {
       setCurrentLockedBlog(blog);
       setIsModalOpen(true);
+      window.history.pushState({}, "", `/Blog/${toSlug(blog.title)}`);
     } else {
-      setSelectedBlog(selectedBlog?._id === blog._id ? null : blog);
+      if (selectedBlog?._id === blog._id) {
+        setSelectedBlog(null);
+        window.history.pushState({}, "", "/Blog");
+      } else {
+        setSelectedBlog(blog);
+        window.history.pushState({}, "", `/Blog/${toSlug(blog.title)}`);
+      }
       setSeed(Math.random());
     }
   };
@@ -384,10 +413,12 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
           onBack={() => {
             setSelectedBlog(null);
             setSeed(Math.random());
+            window.history.pushState({}, "", "/Blog");
           }}
           onTagClick={(tag) => {
-            setSelectedBlog(null); // Go back to main blogs view
-            setSelectedTag(tag); // Set the selected tag
+            setSelectedBlog(null);
+            setSelectedTag(tag);
+            window.history.pushState({}, "", "/Blog");
           }}
         />
       ) : (
@@ -423,7 +454,10 @@ export default function Blogs({ isDarkMode }: BlogsProps) {
 
       <PasswordModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          if (!selectedBlog) window.history.pushState({}, "", "/Blog");
+        }}
         onSubmit={handlePasswordSubmit}
         isDarkMode={isDarkMode}
       />
