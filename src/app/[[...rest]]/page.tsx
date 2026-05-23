@@ -22,16 +22,30 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [blogSlug, setBlogSlug] = useState<string | null>(null);
 
+  const navigate = (path: string) => {
+    window.history.pushState({}, "", path);
+    const segments = path.split("/").filter(Boolean);
+    setCurrentPage(
+      segments[0]
+        ? segments[0].charAt(0).toUpperCase() + segments[0].slice(1)
+        : "Home"
+    );
+    setBlogSlug(segments[1] ?? null);
+  };
+
   useEffect(() => {
-    const segments = window.location.pathname.split("/").filter(Boolean);
-    if (segments.length > 0) {
-      const pageName =
-        segments[0].charAt(0).toUpperCase() + segments[0].slice(1);
-      setCurrentPage(pageName);
-      if (segments.length > 1) setBlogSlug(segments[1]);
-    } else {
-      setCurrentPage("Home");
-    }
+    const syncFromUrl = () => {
+      const segments = window.location.pathname.split("/").filter(Boolean);
+      setCurrentPage(
+        segments[0]
+          ? segments[0].charAt(0).toUpperCase() + segments[0].slice(1)
+          : "Home"
+      );
+      setBlogSlug(segments[1] ?? null);
+    };
+    syncFromUrl();
+    window.addEventListener("popstate", syncFromUrl);
+    return () => window.removeEventListener("popstate", syncFromUrl);
   }, []);
 
   const toggleTheme = () => {
@@ -79,8 +93,7 @@ export default function Home() {
                 className={`text-xl font-bold cursor-pointer ${isDarkMode ? "text-white" : "text-black"} ${item.hover}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  setCurrentPage(item.name);
-                  window.history.pushState({}, "", `/${item.name}`);
+                  navigate(`/${item.name}`);
                 }}
               >
                 {item.name}
@@ -154,9 +167,8 @@ export default function Home() {
                   className={`text-xl font-bold cursor-pointer hover:text-red-500 ${isDarkMode ? "text-white" : "text-black"}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    setCurrentPage(item.name);
-                    window.history.pushState({}, "", `/${item.name}`);
-                    toggleMenu(); // Close the menu after clicking
+                    navigate(`/${item.name}`);
+                    toggleMenu();
                   }}
                 >
                   {item.name}
@@ -223,7 +235,7 @@ export default function Home() {
         className={`md:border md:border-solid ${isDarkMode ? "border-white" : "border-black"} h-[100vh] p-5 max-h-[100vh] overflow-auto z-10`}
       >
         {currentPage === "Blog" ? (
-          <Blog isDarkMode={isDarkMode} initialSlug={blogSlug ?? undefined} />
+          <Blog isDarkMode={isDarkMode} blogSlug={blogSlug} onNavigate={navigate} />
         ) : (
           <CurrentComponent isDarkMode={isDarkMode} />
         )}
