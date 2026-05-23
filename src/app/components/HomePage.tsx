@@ -76,11 +76,12 @@ export default function HomePage({ isDarkMode }: HomePageProps) {
           className={`text-md md:text-lg text-justify ${isDarkMode ? "text-white" : "text-black"}`}
         >
           Hi, welcome to my website! My name is Prakhar Sinha. I am UC Davis
-          Computer Science graduate and I work as an AI Engineer (Full-stack,
-          backend, AI emphasis) at HuLoop Automation. In my spare time, you can
-          find me enjoying nature, playing a video game, or reading a book. When
-          it comes to computer science I have three main areas of focus: <br />{" "}
+          Computer Science graduate and I work as a Software Engineer at ngrok
+          Inc. where I will be working on agent aware networking infrastrucutre.
           <br />
+          &emsp; In my spare time, you can find me enjoying nature, playing a
+          video game, or reading a book. When it comes to computer science I
+          have three main areas of focus: <br /> <br />
         </p>
         <ul className="text-right text-xl md:text-2xl">
           <li>
