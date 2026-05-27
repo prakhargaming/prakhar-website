@@ -75,9 +75,9 @@ export default function HomePage({ isDarkMode }: HomePageProps) {
         <p
           className={`text-md md:text-lg text-justify ${isDarkMode ? "text-white" : "text-black"}`}
         >
-          Hi, welcome to my website! My name is Prakhar Sinha. I am UC Davis
-          Computer Science graduate and I work as a Software Engineer at ngrok
-          Inc. where I will be working on agent aware networking infrastrucutre.
+          Hi, welcome to my website! My name is Prakhar Sinha and I live in San
+          Francisco. I am currently a software engineer at ngrok Inc. where I am
+          excited to be working on agent aware networking infrastructure.
           <br />
           &emsp; In my spare time, you can find me enjoying nature, playing a
           video game, or reading a book. When it comes to computer science I
