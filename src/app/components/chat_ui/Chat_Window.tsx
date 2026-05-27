@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useAuth } from "@clerk/nextjs";
 
 interface darkMode {
   isDarkMode: boolean;
@@ -19,6 +20,7 @@ export default function Chat_Window({ isDarkMode }: darkMode) {
   ]);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const { getToken } = useAuth();
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -60,9 +62,13 @@ export default function Chat_Window({ isDarkMode }: darkMode) {
         firstUserIndex !== -1 ? chatHistory.slice(firstUserIndex) : [];
 
       // Make API call with history
-      const res = await fetch("/api/send-message", {
+      const token = await getToken();
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/send-message`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
         body: JSON.stringify({
           message,
           history: prunedHistory,
@@ -94,7 +100,7 @@ export default function Chat_Window({ isDarkMode }: darkMode) {
   };
 
   return (
-    <div className="flex flex-col h-full md:w-3/4 justify-self-center max-sm:w-full max-sm:pt-5">
+    <div className="flex flex-col h-full md:w-3/4 mx-auto max-sm:w-full max-sm:pt-5">
       {/* Scrollable message container */}
       <div className="flex-1 overflow-y-auto p-10">
         {messages.map((msg) => (

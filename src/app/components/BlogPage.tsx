@@ -205,7 +205,7 @@ const useBlogFetch = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch("/api/blogs", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/blogs`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
