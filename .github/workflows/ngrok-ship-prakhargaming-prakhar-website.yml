@@ -2,7 +2,7 @@
 # template changes. To take over the file and stop those pull requests, add
 # the line "# ngrok-ship: pipeline-updates disabled" anywhere in it.
 
-name: "Build and Push Container (prakhargaming-prakhar-website / app_3KPzuikfr2OWgvFqY0CUoKBkKPa)"
+name: "Build and Push Container (prakhargaming-prakhar-website / app_3KQ2aOKSgqixa1Bbq6e3aSYIEHf)"
 
 on:
   push:
@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_REFERENCE: "registry.ship.ngrok.com/ac_3fpmwr4dfwkiaxeuugh6rijojcu/app_3kpzuikfr2owgvfqy0cuokbkkpa"
-  NGROK_APP_ID: "app_3KPzuikfr2OWgvFqY0CUoKBkKPa"
+  IMAGE_REFERENCE: "registry.ship.ngrok.com/ac_3fpmwr4dfwkiaxeuugh6rijojcu/app_3kq2aoksgqixa1bbq6e3asyiehf"
+  NGROK_APP_ID: "app_3KQ2aOKSgqixa1Bbq6e3aSYIEHf"
 
 jobs:
   build-and-push:
